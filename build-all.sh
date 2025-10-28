@@ -1,0 +1,16 @@
+############################################################################
+#
+# (c) 1986-2025 Wolfgang G. Reißnegger <w.reissnegger@gmx.net>
+# 
+# Project: https://github.com/egnagflow/vmon
+# License: https://github.com/egnagflow/vmon/blob/main/LICENSE
+#
+############################################################################
+
+# BASIC loader builds.
+PLATFORM=vic20 TARGET=unexpanded    make clean all
+PLATFORM=vic20 TARGET=3k            make clean all
+PLATFORM=vic20 TARGET=8k+           make clean all
+
+# Cartridge build.
+PLATFORM=vic20 TARGET=crt_a000      make clean crt

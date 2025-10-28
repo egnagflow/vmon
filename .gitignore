@@ -1,0 +1,6 @@
+gen
+*.img
+*.lbl
+*.o
+*.sw?
+*.crt
