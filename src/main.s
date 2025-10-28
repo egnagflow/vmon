@@ -91,7 +91,9 @@ mon_main_from_basic:
         ; Zero flag must be set when calling basic_new, otherwise the
         ; call will return immediately.
         lda #0
+.if CONFIG_INIT_RELOCATE_BASIC_START
         sta CONFIG_BASIC_START
+.endif
         jsr basic_new
 
 @skip_relocate:
