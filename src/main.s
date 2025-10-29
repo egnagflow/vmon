@@ -64,19 +64,28 @@ mon_main_from_basic:
         ; requested relocation address.
         lda #>CONFIG_BASIC_START
         cmp basic_start_hi
-        bne @do_relocate
+        bne @do_relocate_basic_start
         lda #<CONFIG_BASIC_START+1
         cmp basic_start_lo
-        beq @skip_relocate
+        beq @skip_relocate_basic_start
 
         lda #>CONFIG_BASIC_START
-@do_relocate:
+@do_relocate_basic_start:
         sta basic_start_hi
         lda #<CONFIG_BASIC_START+1
         sta basic_start_lo
 .endif ; CONFIG_INIT_RELOCATE_BASIC_START
 
 .if CONFIG_INIT_RELOCATE_BASIC_END  
+@skip_relocate_basic_start:
+        lda #>CONFIG_BASIC_END
+        cmp basic_end_hi
+        bne @do_relocate_basic_end
+        lda #<CONFIG_BASIC_END
+        cmp basic_end_lo
+        beq @skip_relocate_basic_end
+        
+@do_relocate_basic_end:
         lda #>CONFIG_BASIC_END
         sta basic_end_hi
         lda #<CONFIG_BASIC_END
@@ -95,8 +104,10 @@ mon_main_from_basic:
         sta CONFIG_BASIC_START
 .endif
         jsr basic_new
-
-@skip_relocate:
+.if !CONFIG_INIT_RELOCATE_BASIC_END
+@skip_relocate_basic_start:
+.endif
+@skip_relocate_basic_end:
 .endif ; CONFIG_INIT_RELOCATE_BASIC_START || CONFIG_INIT_RELOCATE_BASIC_END
 
 ;-----------------------------------------------------------------------------
