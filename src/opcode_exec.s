@@ -10,6 +10,7 @@
 .include "target.h"
 .include "screen.h"
 .include "init_vars.h"
+.include "version.h"
 
 ;-----------------------------------------------------------------------------
 ; Public API
@@ -26,9 +27,9 @@
 .export virt_reg_sp
 
 ; Virtual registers
-decl_init_var virt_reg_a,  $01
-decl_init_var virt_reg_x,  $02
-decl_init_var virt_reg_y,  $03
+decl_init_var virt_reg_a,  VERSION_MAJOR
+decl_init_var virt_reg_x,  VERSION_MINOR
+decl_init_var virt_reg_y,  VERSION_PATCH
 decl_init_var virt_reg_f,  $00
 decl_init_var virt_reg_sp, $fd
 
