@@ -73,14 +73,14 @@ endif
 
 OBJS = ${SRCS:s=o}
 
-BIN = $(IMAGES_DIR)/$(IMAGE).img
+PRG = $(IMAGES_DIR)/$(IMAGE).prg
 LBL = $(IMAGES_DIR)/$(IMAGE).lbl
 CRT = $(IMAGES_DIR)/$(PLATFORM)_$(TARGET).crt
 
-all: info $(BIN)
+all: info $(PRG)
 
-crt: info $(BIN)
-	@cartconv -p -i $(BIN) -o $(CRT) -t $(CARTRIDGE_TYPE) -l $(CARTRIDGE_ADDRESS) >/dev/null
+crt: info $(PRG)
+	@cartconv -p -i $(PRG) -o $(CRT) -t $(CARTRIDGE_TYPE) -l $(CARTRIDGE_ADDRESS) >/dev/null
 
 info:
 	@echo "##### Building $(PLATFORM) $(TARGET) #####"
@@ -103,11 +103,11 @@ gen-dir:
 $(OBJS): %.o: %.s
 	@ca65 -U $(INCLUDES) $< -o $@
 
-$(BIN): target-include build-dir $(OBJS)
-	@ld65 -C $(TARGET_CONFIG) -o $(BIN) -Ln $(LBL) $(OBJS)
+$(PRG): target-include build-dir $(OBJS)
+	@ld65 -C $(TARGET_CONFIG) -o $(PRG) -Ln $(LBL) $(OBJS)
 
 clean:
-	@rm -rf $(OBJS) $(BIN) $(LBL) $(TARGET_CONFIG_GEN)
+	@rm -rf $(OBJS) $(PRG) $(LBL) $(TARGET_CONFIG_GEN)
 
 mrproper: clean
 	@rm -rf $(IMAGES_DIR) $(GEN_DIR)
