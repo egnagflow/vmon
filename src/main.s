@@ -10,7 +10,6 @@
 .include "target.h"
 
 .include "screen.h"
-.include "mem_access.h"
 .include "init_vars.h"
 .include "io.h"
 

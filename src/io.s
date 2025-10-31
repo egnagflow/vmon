@@ -8,9 +8,10 @@
 ;-----------------------------------------------------------------------------
 
 .include "target.h"
-.include "mem_access.h"
 .include "screen.h"
 .include "io.h"
+.include "init_vars.h"
+.include "macros.h"
 
 ;-----------------------------------------------------------------------------
 ; Public API
@@ -116,7 +117,7 @@ print_cursor:
 
 .if CONFIG_OPTIMIZE_MEM_SIZE
 strout:
-        stay_mem_rd_vec
+        vec_set_ay mem_vec_rd_lo
         ldy #0
 single_chr:
         ldx #1
@@ -138,7 +139,7 @@ next_chr:
         rts
 .else
 strout:
-        stay_mem_rd_vec
+        vec_set_ay mem_vec_rd_lo
         ldy #0
 next_chr:
         jsr lda_mem_y

@@ -8,7 +8,8 @@
 ;-----------------------------------------------------------------------------
 
 .include "io.h"
-.include "mem_access.h"
+.include "init_vars.h"
+.include "macros.h"
 
 ;-----------------------------------------------------------------------------
 ; Public API
@@ -39,10 +40,11 @@ print_mem_dump_lines:
         chrout_set_color color_memdump
         lda mem_addr_hi
         ldy mem_addr_lo
-        stay_mem_rd_vec
+        vec_set_ay mem_vec_rd_lo
         ldx num_mem_lines   ; line count
+
 print_mem_line:
-        lday_mem_rd_vec
+        vec_get_ay mem_vec_rd_lo
         jsr print_hex16_ay
 
 .if mem_dump_num_bytes = 8
@@ -74,7 +76,7 @@ print_ascii:
         bne print_ascii
         jsr chrout_space
 
-        add_mem_rd_vec mem_dump_num_bytes
+        vec_add_i8 mem_vec_rd_lo, mem_dump_num_bytes
         dex             ; line count
         bne print_mem_line
         rts
