@@ -10,10 +10,7 @@
 ;------------------------------------------------------------------------------
 ; Build configuration
 ;
-; BASIC loader for unexpanded VIC20.
-;
-; This is a pretty minimal configuration with most commands and features
-; disable so vmon can fit into unexpanded BASIC memory.
+; BASIC loader for VIC20 with 8k+ RAM expansion.
 ;------------------------------------------------------------------------------
 CONFIG_VIC20_RAM_EXPANSION                      := 8 ; 8k+ RAM expansion
 CONFIG_INIT_RELOCATE_MONITOR                    := 1

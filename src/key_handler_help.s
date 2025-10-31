@@ -47,11 +47,14 @@ handle_key_help_screen:
         screen_clr
 
         xpos .set 0
-.if screen_size_y < 40 ; For VIC20 mostly
+;-----------------------------------------------------------------------------
+; Help for small screen sizes with less than 40 columns.
+;-----------------------------------------------------------------------------
+.if screen_size_y < 40
         print_str_at xpos, 2,                                                                           "*** VMON HELP ***"
         xpos .set xpos + 1
-
         print_help                                                       KEY_SET_PROGRAM_COUNTER,       "SET PC  (ADDR)"
+
         print_help                                                       KEY_SET_MEMORY_ADDRESS,        "SET MEM (ADDR)"
         print_help_ifdef CONFIG_KEY_HANDLER_REG_SET,                     KEY_SET_REGISTER_VALUE,        "SET REG (VAL)"
 
@@ -74,6 +77,9 @@ handle_key_help_screen:
         xpos .set xpos + 1
         xpos .set xpos + 1
         print_help                                                       KEY_QUIT,                      "QUIT"
+;-----------------------------------------------------------------------------
+; Help for larger screens.
+;-----------------------------------------------------------------------------
 .else
         print_str_at xpos, 1, "VMON (C) 1986-2025 W.REISSNEGGER"
         xpos .set xpos + 1

@@ -157,20 +157,19 @@ handle_key_copy_memory:
         screen_cursor_pos_set 0,1
         lda #KEY_COPY_MEMORY
         jsr chrout
-        jsr read_hex16       ; FROM START
-        bcs @abort      ; Abort
         stay_mem_rd_vec
+        jsr read_hex16      ; FROM START
+        bcs @abort          ; Abort
 
         jsr chrout_space
-        jsr read_hex16       ; FROM END
-        bcs @abort      ; Abort
+        jsr read_hex16      ; FROM END
+        bcs @abort          ; Abort
         sta tmp_var_hi
         sty tmp_var_lo
 
         jsr chrout_space
-        jsr read_hex16       ; TO
-        bcs @abort      ; Abort
-        stay_mem_wr_vec
+        jsr read_hex16      ; TO
+        bcs @abort          ; Abort
 
 @next_byte:
         jsr lda_mem_y0

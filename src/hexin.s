@@ -44,6 +44,13 @@ read_hex4:
 @abort:
         rts
 
+;-----------------------------------------------------------------------------
+; Read 8 bit hex number from keyboard.
+;
+; In:   -
+; Out:  A: Read value high byte
+; Out:  C: 0 - OK, 1 - Abort
+;-----------------------------------------------------------------------------
 read_hex8:
         jsr read_hex4
         bcs @abort
@@ -58,6 +65,14 @@ read_hex8:
 @abort:
         rts
 
+;-----------------------------------------------------------------------------
+; Read 16 bit hex number from keyboard.
+;
+; In:   -
+; Out:  A: Read value high byte
+; Out:  Y: Read value high low
+; Out:  C: 0 - OK, 1 - Abort
+;-----------------------------------------------------------------------------
 read_hex16:
         jsr read_hex8
         bcs @abort

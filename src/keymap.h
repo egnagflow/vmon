@@ -50,6 +50,8 @@ KEY_COPY_MEMORY='Y'
 
 ; Edit memory
 KEY_EDIT_MEMORY='E'
+
+; Edit memory inline
 KEY_EDIT_MEMORY_INLINE='D'
 
 ; Show the user screen
