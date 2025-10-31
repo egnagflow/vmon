@@ -22,6 +22,9 @@ add_key_handler KEY_SET_MEMORY_ADDRESS, handle_key_set_memory_address
 
 .if CONFIG_KEY_HANDLER_MEM_EDIT
 add_key_handler KEY_EDIT_MEMORY, handle_key_edit_memory
+.endif
+
+.if CONFIG_KEY_HANDLER_MEM_EDIT_INLINE
 add_key_handler KEY_EDIT_MEMORY_INLINE, handle_key_edit_memory_inline
 .endif
 
@@ -53,6 +56,7 @@ rts_exit:
 ;------------------------------------------------------------------------------
 ; Edit memory inline
 ;------------------------------------------------------------------------------
+.if CONFIG_KEY_HANDLER_MEM_EDIT_INLINE
 handle_key_edit_memory_inline:
         lda #screen_size_x
         sec
@@ -72,6 +76,7 @@ handle_key_edit_memory_inline:
         inc_mem_wr_vec
         jsr chrout_space
         jmp @next_byte
+.endif
 
 ;------------------------------------------------------------------------------
 ; Edit memory
