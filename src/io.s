@@ -21,10 +21,6 @@
 .export chrout_space
 .export strout
 
-.if CONFIG_ENABLE_CURSOR_DISPLAY
-.export print_cursor
-.endif
-
 .export io_key_in_blocking_fn
 
 .if CONFIG_ENABLE_COLOR
@@ -82,14 +78,6 @@ check_cursor_r:
 chrout_home:
         screen_cursor_pos_set_home
         rts
-
-;-----------------------------------------------------------------------------
-.if CONFIG_ENABLE_CURSOR_DISPLAY
-print_cursor:
-        jsr lda_screen
-        ora #$80
-        jmp sta_screen
-.endif ; CONFIG_ENABLE_CURSOR_DISPLAY
 
 ;-----------------------------------------------------------------------------
 ; COLOR SUPPORT

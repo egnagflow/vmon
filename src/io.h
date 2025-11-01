@@ -52,19 +52,6 @@
 .endmacro
 
 ;-----------------------------------------------------------------------------
-; VISIBLE CURSOR SUPPORT
-;-----------------------------------------------------------------------------
-.if CONFIG_ENABLE_CURSOR_DISPLAY
-  .macro show_cursor
-        jsr print_cursor
-  .endmacro
-.else ; CONFIG_ENABLE_CURSOR_DISPLAY
-  .macro show_cursor
-    ; Empty macro
-  .endmacro
-.endif ; CONFIG_ENABLE_CURSOR_DISPLAY
-
-;-----------------------------------------------------------------------------
 ; COLOR SUPPORT
 ;-----------------------------------------------------------------------------
 .if CONFIG_ENABLE_COLOR

@@ -39,4 +39,10 @@ _SCREEN_MEMMAP_H_ := 1
         screen_cursor_pos_set 0,0
 .endmacro
 
+.if CONFIG_ENABLE_CURSOR_DISPLAY
+.macro screen_print_cursor
+        jsr screen_memmap_print_cursor
+.endmacro
+.endif
+
 .endif ; _SCREEN_MEMMAP_H_

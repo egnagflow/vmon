@@ -15,6 +15,9 @@
 .export screen_memmap_chrout_fn
 .export screen_memmap_cursor_move_right_fn
 .export screen_memmap_cursor_move_left_fn
+.if CONFIG_ENABLE_CURSOR_DISPLAY
+.export screen_memmap_print_cursor
+.endif
 
 
 .export screen_vec_wr_lo
@@ -68,6 +71,13 @@ screen_memmap_cursor_move_right_fn:
         inc screen_vec_wr_hi
 :
         rts
+
+.if CONFIG_ENABLE_CURSOR_DISPLAY
+screen_memmap_print_cursor:
+        jsr lda_screen
+        ora #$80
+        jmp sta_screen
+.endif ; CONFIG_ENABLE_CURSOR_DISPLAY
 
 ;-----------------------------------------------------------------------------
 ; Chrout related routines

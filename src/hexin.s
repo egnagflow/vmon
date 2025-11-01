@@ -9,6 +9,7 @@
 
 .include "target.h"
 .include "io.h"
+.include "screen.h"
 
 ;-----------------------------------------------------------------------------
 ; Public API
@@ -21,7 +22,7 @@
 
 ;------------------------------------------------------------------------------
 read_hex4:
-        show_cursor
+        screen_print_cursor
         io_key_in_blocking
         cmp #key_code_esc
         sec
