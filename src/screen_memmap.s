@@ -12,9 +12,10 @@
 ;-----------------------------------------------------------------------------
 ; Public API
 ;-----------------------------------------------------------------------------
-.export screen_chrout_fn
-.export screen_cursor_move_right_fn
-.export screen_cursor_move_left_fn
+.export screen_memmap_chrout_fn
+.export screen_memmap_cursor_move_right_fn
+.export screen_memmap_cursor_move_left_fn
+
 
 .export screen_vec_wr_lo
 .export screen_vec_wr_hi
@@ -53,7 +54,7 @@ lda_screen:
 ;-----------------------------------------------------------------------------
 .segment "CODE"
 
-screen_cursor_move_left_fn:
+screen_memmap_cursor_move_left_fn:
         lda screen_vec_wr_lo
         bne :+
         dec screen_vec_wr_hi
@@ -61,7 +62,7 @@ screen_cursor_move_left_fn:
         dec screen_vec_wr_lo
         rts
 
-screen_cursor_move_right_fn:
+screen_memmap_cursor_move_right_fn:
         inc screen_vec_wr_lo
         bne :+
         inc screen_vec_wr_hi
@@ -76,7 +77,7 @@ screen_cursor_move_right_fn:
 ;   mapped on the commodore machines. Probably need to have refactor this at
 ;   some point.
 ;-----------------------------------------------------------------------------
-screen_chrout_fn:
+screen_memmap_chrout_fn:
         pha         ; chrout should not mangle A. Save it.
         and #<~$40
         jsr sta_screen

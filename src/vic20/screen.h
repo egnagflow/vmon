@@ -13,34 +13,13 @@ _SCREEN_H_ := 1
 .include "screen_config.h"
 
 ;-----------------------------------------------------------------------------
-; CHROUT
+; Include generic macros for memmapped screens
 ;-----------------------------------------------------------------------------
-.macro screen_chrout
-        jsr screen_chrout_fn
-.endmacro
+.include "screen_memmap.h"
 
 ;-----------------------------------------------------------------------------
 ; Cursor handling
 ;-----------------------------------------------------------------------------
-.macro screen_cursor_move_left
-        jsr screen_cursor_move_left_fn
-.endmacro
-
-.macro screen_cursor_move_right
-        jsr screen_cursor_move_right_fn
-.endmacro
-
-.macro screen_cursor_pos_set posx, posy
-        lda #>(screen_addr_mon + posx * screen_size_y + posy)
-        sta screen_vec_wr_hi
-        lda #<(screen_addr_mon + posx * screen_size_y + posy)
-        sta screen_vec_wr_lo
-.endmacro
-
-.macro screen_cursor_pos_set_home
-        screen_cursor_pos_set 0,0
-.endmacro
-
 .macro screen_cursor_pos_set_xy
         jsr screen_cursor_pos_set_xy_fn
 .endmacro
