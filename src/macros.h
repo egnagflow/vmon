@@ -39,18 +39,20 @@
 ; Increment / Decrement
 ;-----------------------------------------------------------------------------
 .macro vec_inc vec
+        .local @skip
         inc vec
-        bne :+
+        bne @skip
         inc vec+1
-:
+@skip:
 .endmacro
 
 ;-----------------------------------------------------------------------------
 .macro vec_dec vec
+        .local @skip
         lda vec
-        bne :+
+        bne @skip
         dec vec+1
-:
+@skip:
         dec vec
 .endmacro
 
@@ -58,13 +60,14 @@
 ; Add / Sub
 ;-----------------------------------------------------------------------------
 .macro vec_add_i8 vec, val
+        .local @skip
         lda vec
         clc
         adc #val
         sta vec
-        bcc :+
+        bcc @skip
         inc vec+1
-:
+@skip:
 .endmacro
 
 ;-----------------------------------------------------------------------------
@@ -80,13 +83,14 @@
 
 ;-----------------------------------------------------------------------------
 .macro vec_sub_i8 vec, val
+        .local @skip
         lda vec
         sec
         sbc #val
         sta vec
-        bcs :+
+        bcs @skip
         dec vec+1
-:
+@skip:
 .endmacro
 
 
@@ -94,16 +98,22 @@
 ; Comparison
 ;-----------------------------------------------------------------------------
 .macro vec_cmp vec1, vec2
+        .local @skip
+        lda vec1+1
+        cmp vec2+1
+        bne @skip
         lda vec1
         cmp vec2
-        lda vec1+1
-        sbc vec2+1
+@skip:
 .endmacro
 
 ;-----------------------------------------------------------------------------
 .macro vec_cmp_i16 vec, val
-        lda vec
-        cmp #<val
+        .local @skip
         lda vec+1
-        sbc #>val
+        cmp #>val
+        bne @skip
+        lda vec
+        sbc #<val
+@skip:
 .endmacro
