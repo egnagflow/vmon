@@ -18,8 +18,9 @@ CONFIG_INIT_RELOCATE_BASIC_START                := 1
 
 CONFIG_EXAMPLE_CODE                             := 1
 
-CONFIG_ENABLE_COLOREDIT_FONT                    := 1
 CONFIG_ENABLE_COLOR                             := 1
+CONFIG_ENABLE_COLOREDIT_FONT                    := 1
+CONFIG_ENABLE_COLOREDIT_BACKGROUND              := 1
 CONFIG_ENABLE_CURSOR_DISPLAY                    := 1
 
 CONFIG_PRG_HEADER                               := 1

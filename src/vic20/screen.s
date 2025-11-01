@@ -16,6 +16,11 @@
 .export screen_clr_fn
 .export screen_header
 
+.if CONFIG_ENABLE_COLOREDIT_BACKGROUND
+.export screen_color_background_cycle
+.export screen_color_frame_cycle
+.endif
+
 .export screen_switch_to_mon_fn
 .export screen_switch_to_user_fn
 .export screen_cursor_pos_set_xy_fn
@@ -132,9 +137,41 @@ screen_switch_to_mon_fn:
 .else
         lda #color_bg
 .endif ; CONFIG_ENABLE_COLOREDIT_FONT
+screen_color_reg_write:
         sta viccr_color
 .endif ; CONFIG_ENABLE_COLOR
         rts
+
+;-----------------------------------------------------------------------------
+.if CONFIG_ENABLE_COLOREDIT_BACKGROUND
+
+;  viccr_color:
+;  +---+---+---+---+---+---+---+---+
+;  | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+;  +---+---+---+---+---+---+---+---+
+;  | backgrnd col  | R | frame col |
+;  +---+---+---+---+---+---+---+---+
+
+screen_color_frame_cycle:
+        lda color_bg
+        tax
+        and #%11110000          ; Save background color bits.
+        sta color_bg
+        inx                     ; Increment frame color.
+        txa
+        and #%00000111          ; Mask out frame color bits.
+        ora #%00001000          ; Set R(everse) bit.
+        ora color_bg            ; Combine with background color.
+        bne screen_color_commit ; BRA: Z is always 0 here.
+
+screen_color_background_cycle:
+        lda color_bg
+        clc
+        adc #%00010000          ; Increment background color.
+screen_color_commit:
+        sta color_bg
+        bne screen_color_reg_write ; BRA: Z is always 0 here.
+.endif
 
 ;-----------------------------------------------------------------------------
 ; CLR / HOME

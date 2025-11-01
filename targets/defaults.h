@@ -45,6 +45,7 @@ defcfg CONFIG_VIC20_RAM_EXPANSION
 ;-----------------------------------------------------------------------------
 defcfg CONFIG_ENABLE_COLOR
 defcfg CONFIG_ENABLE_COLOREDIT_FONT
+defcfg CONFIG_ENABLE_COLOREDIT_BACKGROUND
 defcfg CONFIG_ENABLE_CURSOR_DISPLAY
 
 ;-----------------------------------------------------------------------------
