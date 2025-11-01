@@ -77,7 +77,7 @@ handle_key_opcode_prev:
 next_opcode:
         jsr lda_pc_y
         jsr opcode_len
-        sta opcode_len
+        sta shared_tmp
         tax
 add_y:
         iny             ; Y += X
@@ -88,7 +88,7 @@ add_y:
         bmi next_opcode
 
         sec             ; Subtract len of last opcode from PC
-        sbc opcode_len  ; (PC = (PC - $100) + (Y - last_opcode_len))
+        sbc shared_tmp  ; (PC = (PC - $100) + (Y - last_opcode_len))
         jmp pc_add
 
 ;-----------------------------------------------------------------------------
