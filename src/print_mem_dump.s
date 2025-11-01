@@ -38,12 +38,11 @@ decl_init_var mem_addr_hi, 0      ; HI Address of memory dump
 ;-----------------------------------------------------------------------------
 print_mem_dump_lines:
         chrout_set_color color_memdump
-        lda mem_addr_hi
-        ldy mem_addr_lo
+        vec_get_ay mem_addr_lo
         vec_set_ay mem_vec_rd_lo
         ldx num_mem_lines   ; line count
 
-print_mem_line:
+@print_mem_line:
         vec_get_ay mem_vec_rd_lo
         jsr print_hex16_ay
 
@@ -53,13 +52,13 @@ print_mem_line:
 
         ; Print HEX
         ldy #0
-print_byte:
+@print_byte:
         jsr chrout_space
         jsr lda_mem_y
         jsr print_hex8
         iny
         cpy #mem_dump_num_bytes
-        bne print_byte
+        bne @print_byte
 
 .if mem_dump_num_bytes = 8
         jsr chrout_space    ; for 40 column screens
@@ -68,28 +67,25 @@ print_byte:
         ; Print ASCII
         jsr chrout_space
         ldy #0
-print_ascii:
+@print_ascii:
         jsr lda_mem_y
-        jsr print_ascii_dump
+
+        and #$7f
+        cmp #$20        ; ' '
+        bmi @print_dot
+        cmp #$5b        ; 'Z'+1
+        bpl @print_dot
+        .byte $2c       ; BIT abs
+@print_dot:
+        lda #'.'
+        jsr chrout
+
         iny
         cpy #mem_dump_num_bytes
-        bne print_ascii
+        bne @print_ascii
         jsr chrout_space
 
         vec_add_i8 mem_vec_rd_lo, mem_dump_num_bytes
         dex             ; line count
-        bne print_mem_line
+        bne @print_mem_line
         rts
-
-print_ascii_dump:
-        and #$7f
-        cmp #$20        ; ' '
-        bmi print_dot
-        cmp #$5b        ; 'Z'+1
-        bpl print_dot
-        .byte $2c       ; BIT abs
-print_dot:
-        lda #'.'
-        jmp chrout
-
-
