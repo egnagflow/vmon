@@ -9,17 +9,13 @@
 
 .include "target.h"
 .include "screen.h"
+.include "api.h"
 
 ;-----------------------------------------------------------------------------
 ; KEY HANDLING
 ;-----------------------------------------------------------------------------
-.macro io_key_in_poll
-        jsr keyscan_key_poll
-.endmacro
-
-.macro io_key_in_blocking
-        jsr io_key_in_blocking_fn
-.endmacro
+api_macro_map io_key_in_poll,       keyscan_key_poll
+api_macro_map io_key_in_blocking,   io_key_in_blocking_fn
 
 ;-----------------------------------------------------------------------------
 ; GENERIC SCREEN INIT

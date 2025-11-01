@@ -10,23 +10,20 @@
 .ifndef _SCREEN_MEMMAP_H_
 _SCREEN_MEMMAP_H_ := 1
 
+.include "api.h"
+
 ;-----------------------------------------------------------------------------
 ; CHROUT
 ;-----------------------------------------------------------------------------
-.macro screen_chrout
-        jsr screen_memmap_chrout_fn
-.endmacro
+api_macro_map screen_chrout,            screen_memmap_chrout_fn
 
 ;-----------------------------------------------------------------------------
 ; Cursor handling
 ;-----------------------------------------------------------------------------
-.macro screen_cursor_move_left
-        jsr screen_memmap_cursor_move_left_fn
-.endmacro
+api_macro_map screen_cursor_move_left,  screen_memmap_cursor_move_left_fn
+api_macro_map screen_cursor_move_right, screen_memmap_cursor_move_right_fn
 
-.macro screen_cursor_move_right
-        jsr screen_memmap_cursor_move_right_fn
-.endmacro
+api_macro_map_if CONFIG_ENABLE_CURSOR_DISPLAY, screen_print_cursor, screen_memmap_print_cursor
 
 .macro screen_cursor_pos_set posx, posy
         lda #>(screen_addr_mon + posx * screen_size_y + posy)
@@ -38,11 +35,5 @@ _SCREEN_MEMMAP_H_ := 1
 .macro screen_cursor_pos_set_home
         screen_cursor_pos_set 0,0
 .endmacro
-
-.if CONFIG_ENABLE_CURSOR_DISPLAY
-.macro screen_print_cursor
-        jsr screen_memmap_print_cursor
-.endmacro
-.endif
 
 .endif ; _SCREEN_MEMMAP_H_

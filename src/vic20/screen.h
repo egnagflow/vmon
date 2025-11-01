@@ -20,24 +20,14 @@ _SCREEN_H_ := 1
 ;-----------------------------------------------------------------------------
 ; Cursor handling
 ;-----------------------------------------------------------------------------
-.macro screen_cursor_pos_set_xy
-        jsr screen_cursor_pos_set_xy_fn
-.endmacro
+api_macro_map screen_cursor_pos_set_xy, screen_cursor_pos_set_xy_fn
 
 ;-----------------------------------------------------------------------------
 ; Screen clear and switching
 ;-----------------------------------------------------------------------------
-.macro screen_clr
-        jsr screen_clr_fn
-.endmacro
-
-.macro screen_switch_to_user
-        jsr screen_switch_to_user_fn
-.endmacro
-
-.macro screen_switch_to_mon
-        jsr screen_switch_to_mon_fn
-.endmacro
+api_macro_map screen_clr,               screen_clr_fn
+api_macro_map screen_switch_to_user,    screen_switch_to_user_fn
+api_macro_map screen_switch_to_mon,     screen_switch_to_mon_fn
 
 ;-----------------------------------------------------------------------------
 ; Screen platform dependent INIT
@@ -48,21 +38,7 @@ _SCREEN_H_ := 1
 ;-----------------------------------------------------------------------------
 ; Screen color handling
 ;-----------------------------------------------------------------------------
-.if CONFIG_ENABLE_COLOREDIT_BACKGROUND
-.macro screen_color_background_cycle
-        jsr screen_color_background_cycle
-.endmacro
+api_macro_map_if CONFIG_ENABLE_COLOREDIT_BACKGROUND, screen_color_background_cycle, screen_color_background_cycle_fn
+api_macro_map_if CONFIG_ENABLE_COLOREDIT_BACKGROUND, screen_color_frame_cycle, screen_color_frame_cycle_fn
 
-.macro screen_color_frame_cycle
-        jsr screen_color_frame_cycle
-.endmacro
-
-.else
-
-.macro screen_color_background_cycle
-.endmacro
-
-.macro screen_color_frame_cycle
-.endmacro
-.endif
 .endif ; _SCREEN_H_

@@ -17,8 +17,8 @@
 .export screen_header
 
 .if CONFIG_ENABLE_COLOREDIT_BACKGROUND
-.export screen_color_background_cycle
-.export screen_color_frame_cycle
+.export screen_color_background_cycle_fn
+.export screen_color_frame_cycle_fn
 .endif
 
 .export screen_switch_to_mon_fn
@@ -152,7 +152,7 @@ screen_color_reg_write:
 ;  | backgrnd col  | R | frame col |
 ;  +---+---+---+---+---+---+---+---+
 
-screen_color_frame_cycle:
+screen_color_frame_cycle_fn:
         lda color_bg
         tax
         and #%11110000          ; Save background color bits.
@@ -164,7 +164,7 @@ screen_color_frame_cycle:
         ora color_bg            ; Combine with background color.
         bne screen_color_commit ; BRA: Z is always 0 here.
 
-screen_color_background_cycle:
+screen_color_background_cycle_fn:
         lda color_bg
         clc
         adc #%00010000          ; Increment background color.
