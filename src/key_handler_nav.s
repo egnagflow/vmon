@@ -10,6 +10,7 @@
 .include "target.h"
 .include "screen.h"
 .include "key_handler.h"
+.include "macros.h"
 
 ;-----------------------------------------------------------------------------
 ; Key command mapping table
@@ -37,13 +38,7 @@ handle_key_memory_scroll_down:
         ldy #1
 
 add_line:
-        lda #mem_dump_num_bytes
-        clc
-        adc mem_addr_lo
-        bcc no_inc
-        inc mem_addr_hi
-no_inc:
-        sta mem_addr_lo
+        vec_add_i8 mem_addr_lo, mem_dump_num_bytes
         dey
         bne add_line
         rts
@@ -56,13 +51,7 @@ handle_key_memory_scroll_up:
         ldy #1
 
 sub_line:
-        lda mem_addr_lo
-        sec
-        sbc #mem_dump_num_bytes
-        bcs no_dec
-        dec mem_addr_hi
-no_dec:
-        sta mem_addr_lo
+        vec_sub_i8 mem_addr_lo, mem_dump_num_bytes
         dey
         bne sub_line
         rts
