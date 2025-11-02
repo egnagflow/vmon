@@ -56,8 +56,13 @@ handle_key_single_step_into:
 ; INSPECT while single-stepping until RTS
 ;-----------------------------------------------------------------------------
 .segment "DATA"
-.if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS
-sp_save:   .res 1
+.if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS || CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
+sp_save:
+until_addr:
+        .res 1
+.endif
+.if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
+        .res 1
 .endif
 
 .if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
@@ -122,11 +127,6 @@ handle_key_cont_step_over_until_rts_continue:
 ; Step into until given address
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
-.pushseg
-.segment "DATA"
-until_addr:     .res 2
-.popseg
-
 handle_key_cont_step_into_until_addr:
         screen_cursor_pos_set 0,1
         lda #KEY_CONT_STEP_OVER_UNTIL_ADDR
