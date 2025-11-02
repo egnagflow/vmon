@@ -11,6 +11,8 @@
 
 .if CONFIG_HANDLE_BRK
 
+.include "macros.h"
+
 ;-----------------------------------------------------------------------------
 ; Public API
 ;-----------------------------------------------------------------------------
@@ -20,10 +22,7 @@
 .segment "CODE"
 
 brk_handler_init:
-        lda #<brk_handler
-        sta brk_vector
-        lda #>brk_handler
-        sta brk_vector+1
+        vec_set brk_vector, brk_handler
         rts
 
 brk_handler:

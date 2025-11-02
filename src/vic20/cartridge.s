@@ -10,6 +10,7 @@
 .include "target.h"
 .include "io.h"
 .include "init_vars.h"
+.include "macros.h"
 
 .if CONFIG_CARTRIDGE
 
@@ -78,10 +79,7 @@ wait_for_yn:
         ; "Y" key pressed, set up the QUIT vector
         ; "RESET" so we will cleanly exit VMON
         ; later.
-        lda #<cartridge_quit
-        sta vec_mon_exit
-        lda #>cartridge_quit
-        sta vec_mon_exit+1
+        vec_set vec_mon_exit, cartridge_quit
 
         jmp mon_main_from_cartridge
 

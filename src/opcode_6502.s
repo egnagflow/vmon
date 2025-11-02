@@ -162,7 +162,6 @@ opcode_str:
 ; In:   A: Opcode
 ; Out:  A: Table index for opcode
 ; Mod:  A, X, flags
-.segment "CODE"
 
 opcode_table_index:
         tax
@@ -191,6 +190,8 @@ exit:
         rts
 
 ;-----------------------------------------------------------------------------
+.segment "ROM"
+
 imm = 0
 zp  = 1
 zpx = 2
@@ -212,7 +213,6 @@ non = 11
 .endmacro
 
 ;-----------------------------------------------------------------------------
-.segment "CODE"
 opcode_len_table: .byte 2,2,2,2,2,2,3,3,3,3,2,1
 
 opcode_addr_mode_table:

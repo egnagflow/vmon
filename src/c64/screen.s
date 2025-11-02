@@ -9,6 +9,7 @@
 
 .include "target.h"
 .include "init_vars.h"
+.include "macros.h"
 
 ;-----------------------------------------------------------------------------
 ; Public API
@@ -160,21 +161,11 @@ screen_cursor_pos_set_xy_fn:
         asl
         asl
         asl
-        clc
-        adc tmp_var_lo
-        sta tmp_var_lo
-        bcc :+
-        inc tmp_var_hi
-:
+        vec_add_a tmp_var_lo
 
         ; Add Y offset to result.
         tya
-        clc
-        adc tmp_var_lo
-        sta tmp_var_lo
-        bcc :+
-        inc tmp_var_hi
-:
+        vec_add_a tmp_var_lo
 
         ; Set screen memory base address.
         lda #<screen_addr_mon

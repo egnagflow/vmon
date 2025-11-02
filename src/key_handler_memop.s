@@ -76,7 +76,7 @@ handle_key_edit_memory_inline:
 @next_byte:
         jsr read_hex8
         bcs rts_exit
-        ldy #$00
+        ldy #0
         jsr sta_mem_y
         jsr inc_mem_vec_wr
         jsr chrout_space
@@ -106,7 +106,7 @@ read_next_byte:
         jsr chrout_space
         jsr read_hex8       ; Value
         bcs rts_exit        ; Abort
-        ldy #$00
+        ldy #0
         jsr sta_mem_y
         jsr inc_mem_vec_wr
 

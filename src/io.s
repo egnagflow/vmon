@@ -111,34 +111,34 @@ chrout_home:
 strout:
         vec_set_ay mem_vec_rd_lo
         ldy #0
-single_chr:
+@single_chr:
         ldx #1
-next_chr:
+@next_chr:
         jsr lda_mem_y
         beq @done           ; Terminating \0?
         bpl @loop           ; Counter?
         and #$7f            ; Get counter in X
         tax
         iny                 ; Point to next character
-        bne next_chr       ; And print X times
+        bne @next_chr       ; And print X times
 @loop:
         jsr chrout_parse
         dex
         bne @loop
         iny
-        bne single_chr
+        bne @single_chr
 @done:
         rts
 .else
 strout:
         vec_set_ay mem_vec_rd_lo
         ldy #0
-next_chr:
+@next_chr:
         jsr lda_mem_y
         beq @done
         jsr chrout_parse
         iny
-        bne next_chr
+        bne @next_chr
 @done:
         rts
 .endif

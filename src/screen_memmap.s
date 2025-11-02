@@ -8,6 +8,7 @@
 ;-----------------------------------------------------------------------------
 
 .include "init_vars.h"
+.include "macros.h"
 
 ;-----------------------------------------------------------------------------
 ; Public API
@@ -59,18 +60,11 @@ lda_screen:
 ; Cursor control
 ;-----------------------------------------------------------------------------
 screen_memmap_cursor_move_left_fn:
-        lda screen_vec_wr_lo
-        bne :+
-        dec screen_vec_wr_hi
-:
-        dec screen_vec_wr_lo
+        vec_dec screen_vec_wr_lo
         rts
 
 screen_memmap_cursor_move_right_fn:
-        inc screen_vec_wr_lo
-        bne :+
-        inc screen_vec_wr_hi
-:
+        vec_inc screen_vec_wr_lo
         rts
 
 .if CONFIG_ENABLE_CURSOR_DISPLAY

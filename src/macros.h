@@ -71,7 +71,6 @@
 
 ;-----------------------------------------------------------------------------
 .macro vec_add_i8 vec, val
-        .local @skip
         lda #val
         vec_add_a vec
 .endmacro
