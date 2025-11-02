@@ -161,7 +161,7 @@ mon_brk_entry:
 ; Screen initialization
 ;-----------------------------------------------------------------------------
         ; Init screen
-        screen_init_common
+        screen_init_target
 
         screen_switch_to_mon
         screen_clr

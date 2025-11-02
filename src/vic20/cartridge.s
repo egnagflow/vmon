@@ -50,7 +50,7 @@ vec_start:
 ; If dynamic color is supported we need to set color_bg,
 ; otherwise we get the wrong color scheme when calling
 ; screen_switch_to_mon
-        screen_init_common
+        screen_init_target
         setup_init_vars
         screen_clr
         screen_switch_to_mon

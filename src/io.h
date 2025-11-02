@@ -18,14 +18,6 @@ api_macro_map io_key_in_poll,       keyscan_key_poll
 api_macro_map io_key_in_blocking,   io_key_in_blocking_fn
 
 ;-----------------------------------------------------------------------------
-; GENERIC SCREEN INIT
-;-----------------------------------------------------------------------------
-.macro screen_init_common
-        ; Set up screen
-        screen_init_platform
-.endmacro
-
-;-----------------------------------------------------------------------------
 ; STRING PRINTING FUNCTIONS
 ;-----------------------------------------------------------------------------
 .macro print_str_ptr str

@@ -32,7 +32,7 @@ api_macro_map screen_switch_to_mon,     screen_switch_to_mon_fn
 ;-----------------------------------------------------------------------------
 ; Screen platform dependent INIT
 ;-----------------------------------------------------------------------------
-.macro screen_init_platform
+.macro screen_init_target
 .endmacro
 
 ;-----------------------------------------------------------------------------
