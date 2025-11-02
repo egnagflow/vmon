@@ -7,11 +7,5 @@
 #
 ############################################################################
 
-# BASIC loader builds.
-PLATFORM=vic20 TARGET=unexpanded    make clean all
-PLATFORM=vic20 TARGET=3k            make clean all
-PLATFORM=vic20 TARGET=8k+           make clean all
-
-# Cartridge build.
-PLATFORM=vic20 TARGET=crt_a000_pal  make clean crt
-PLATFORM=vic20 TARGET=crt_a000_ntsc make clean crt
+CARTRIDGE_TYPE    = vic20
+CARTRIDGE_ADDRESS = 40960
