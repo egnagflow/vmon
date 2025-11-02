@@ -19,11 +19,20 @@
         .byte $41, $30, $c3, $c2, $cd
 
 ;-----------------------------------------------------------------------------
+; PAL and NTSC versions of the VIC20 require different initialization of the
+; VIC chip and therefore have different kernal ROMs.
+;-----------------------------------------------------------------------------
 .segment "ROM"
 vic_video_init_tab:
-        ; Init table copied from kernal ROM at $EDE4.
+.if CONFIG_VIC20_NTSC
+        ; Init table copied from NTSC kernal ROM (901486-06) at $EDE4.
+        .byte $05, $19, $16, $2e, $00, $c0, $00, $00
+        .byte $00, $00, $00, $00, $00, $00, $00, $1b
+.else ; PAL version
+        ; Init table copied from PAL kernal ROM (901486-07) at $EDE4.
         .byte $0c, $26, $16, $2e, $00, $c0, $00, $00
         .byte $00, $00, $00, $00, $00, $00, $00, $1b
+.endif
 
 ;-----------------------------------------------------------------------------
 .segment "CODE"

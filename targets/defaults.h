@@ -26,6 +26,17 @@ name := val
 .endmacro
 
 ;-----------------------------------------------------------------------------
+; VIC20 specific configuration
+;-----------------------------------------------------------------------------
+; Select NTSC vs PAL versions of the VIC20. This option is only required when
+; building the cartridge versions of VMON as the cartridge will initialize the
+; VIC chip rather than relying on the kernal ROM.
+; Default is PAL if CONFIG_VIC20_NTSC is not set.
+defcfg CONFIG_VIC20_NTSC
+
+defcfg CONFIG_VIC20_RAM_EXPANSION
+
+;-----------------------------------------------------------------------------
 ; Splash screen
 ;-----------------------------------------------------------------------------
 defcfg CONFIG_SPLASH_SHOW_COPYRIGHT
@@ -37,8 +48,6 @@ defcfg CONFIG_OPTIMIZE_MEM_SIZE
 
 defcfg CONFIG_EXAMPLE_CODE
 defcfg CONFIG_EXAMPLE_CODE_NOPS
-
-defcfg CONFIG_VIC20_RAM_EXPANSION
 
 ;-----------------------------------------------------------------------------
 ; Screen configuration
