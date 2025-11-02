@@ -37,9 +37,11 @@ api_macro_map io_key_in_blocking,   io_key_in_blocking_fn
 .macro print_str str
 .pushseg
 .segment "ROM"
-:       .byte str,0
+        .local @string
+@string:
+        .byte str,0
 .popseg
-        print_str_ptr :-
+        print_str_ptr @string
 .endmacro
 
 .macro print_str_at posx, posy, str
