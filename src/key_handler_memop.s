@@ -127,7 +127,7 @@ handle_key_fill_memory:
         jsr chrout_space
         jsr read_hex16      ; END address
         bcs @abort          ; Abort
-        vec_set_ay tmp_var_hi
+        vec_set_ay tmp_var_lo
 
         jsr chrout_space
         jsr read_hex8       ; Value
