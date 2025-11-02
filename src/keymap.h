@@ -42,6 +42,9 @@ KEY_CONT_STEP_OVER_UNTIL_ADDR='U'
 ; Continue step over execution until RTS
 KEY_CONT_STEP_INTO_UNTIL_RTS='I'
 
+; Resume last run mode after pause.
+KEY_RESME_LAST_RUN_MODE='X'
+
 ; Fill memory
 KEY_FILL_MEMORY='F'
 

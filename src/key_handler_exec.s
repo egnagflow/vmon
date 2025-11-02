@@ -11,6 +11,7 @@
 .include "key_handler.h"
 .include "screen.h"
 .include "io.h"
+.include "init_vars.h"
 .include "macros.h"
 
 ;-----------------------------------------------------------------------------
@@ -33,6 +34,10 @@ add_key_handler KEY_CONT_STEP_OVER_UNTIL_RTS, handle_key_cont_step_over_until_rt
 add_key_handler KEY_CONT_STEP_OVER_UNTIL_ADDR, handle_key_cont_step_into_until_addr
 .endif
 
+.if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
+add_key_handler KEY_RESME_LAST_RUN_MODE, handle_key_resume_last_run_mode
+.endif
+
 ;-----------------------------------------------------------------------------
 .segment "CODE"
 
@@ -51,25 +56,41 @@ handle_key_single_step_into:
 ; INSPECT while single-stepping until RTS
 ;-----------------------------------------------------------------------------
 .segment "DATA"
-handle_key_cont_step_sp_save:   .res 1
+.if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS
+sp_save:   .res 1
+.endif
+
+.if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
+.define RUN_MODE_STEP_INTO_UNTIL_RTS    $00   ; BEQ
+.define RUN_MODE_STEP_OVER_UNTIL_RTS    $80   ; BMI
+.define RUN_MODE_STEP_INTO_UNTIL_ADDR   $01   ; BCS
+.define RUN_MODE_NONE                   $02
+decl_init_var run_mode, RUN_MODE_NONE
+.endif
 
 .segment "CODE"
 
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS
 handle_key_cont_step_into_until_rts:
         ldy virt_reg_sp
-        sty handle_key_cont_step_sp_save
+        sty sp_save
 
+.if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
+        lda #RUN_MODE_STEP_INTO_UNTIL_RTS
+        sta run_mode
+.endif
+
+handle_key_cont_step_into_until_rts_continue:
 handle_key_i_update:
         jsr handle_key_single_step_into
         jsr screen_draw
 
-        jsr check_pause_abort_execution
+        jsr check_abort_execution
 
         jsr lda_pc_y0
         cmp #$60            ; Did we reach a RTS?
         bne handle_key_i_update
-        ldy handle_key_cont_step_sp_save
+        ldy sp_save
         cpy virt_reg_sp     ; Are we in the stack frame we started from?
         bne handle_key_i_update
         rts
@@ -80,10 +101,16 @@ handle_key_i_update:
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_RTS
 handle_key_cont_step_over_until_rts:
+.if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
+        lda #RUN_MODE_STEP_OVER_UNTIL_RTS
+        sta run_mode
+.endif
+
+handle_key_cont_step_over_until_rts_continue:
         jsr handle_key_single_step_over
         jsr screen_draw
 
-        jsr check_pause_abort_execution
+        jsr check_abort_execution
 
         jsr lda_pc_y0
         cmp #$60 ; RTS
@@ -105,38 +132,45 @@ handle_key_cont_step_into_until_addr:
         lda #KEY_CONT_STEP_OVER_UNTIL_ADDR
         jsr chrout
         jsr read_hex16
-        bcs @abort  ; Abort
+        bcs handle_key_cont_step_into_until_addr_abort  ; Abort
         vec_set_ay until_addr
 
+.if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
+        lda #RUN_MODE_STEP_INTO_UNTIL_ADDR
+        sta run_mode
+.endif
+
+handle_key_cont_step_into_until_addr_continue:
 @next_line:
         jsr handle_key_single_step_over
         jsr screen_draw
 
-        jsr check_pause_abort_execution
+        jsr check_abort_execution
 
         vec_cmp pc_lo, until_addr
         bne @next_line
-@abort:
+handle_key_cont_step_into_until_addr_abort:
         rts
 .endif ; CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
 
 ;-----------------------------------------------------------------------------
-check_pause_abort_execution:
+; Resume last run mode
+;-----------------------------------------------------------------------------
+.if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
+handle_key_resume_last_run_mode:
+        lda run_mode
+        beq handle_key_cont_step_into_until_rts_continue
+        bmi handle_key_cont_step_over_until_rts_continue
+        lsr
+        bcs handle_key_cont_step_into_until_addr_continue
+        rts
+.endif
+
+;-----------------------------------------------------------------------------
+check_abort_execution:
         io_key_in_poll
         beq @exit       ; No key pressed
-.if CONFIG_KEY_HANDLER_SCREEN_SHOW
-        cmp #KEY_SHOW_SCREEN
-        bne @no_show_screen
-        jmp handle_key_show_screen
-.endif ; CONFIG_KEY_HANDLER_SCREEN_SHOW
-@no_show_screen:
-        cmp #KEY_PAUSE_ABORT
-        bne @abort
-        io_key_in_blocking
-        rts
-@abort:
         pla
         pla
 @exit:
         rts
-
