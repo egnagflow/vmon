@@ -11,6 +11,7 @@
 .include "key_handler.h"
 .include "screen.h"
 .include "io.h"
+.include "macros.h"
 
 ;-----------------------------------------------------------------------------
 ; Key command mapping table
@@ -94,14 +95,18 @@ handle_key_cont_step_over_until_rts:
 ; Step into until given address
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
+.pushseg
+.segment "DATA"
+until_addr:     .res 2
+.popseg
+
 handle_key_cont_step_into_until_addr:
         screen_cursor_pos_set 0,1
         lda #KEY_CONT_STEP_OVER_UNTIL_ADDR
         jsr chrout
         jsr read_hex16
         bcs @abort  ; Abort
-        sta tmp_var_hi
-        sty tmp_var_lo
+        vec_set_ay until_addr
 
 @next_line:
         jsr handle_key_single_step_over
@@ -109,11 +114,7 @@ handle_key_cont_step_into_until_addr:
 
         jsr check_pause_abort_execution
 
-        lda pc_lo
-        cmp tmp_var_lo
-        bne @next_line
-        lda pc_hi
-        cmp tmp_var_hi
+        vec_cmp pc_lo, until_addr
         bne @next_line
 @abort:
         rts
