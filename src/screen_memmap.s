@@ -40,6 +40,8 @@ decl_init_var screen_vec_wr_lo, $00    ; address lo
 decl_init_var screen_vec_wr_hi, $00    ; address hi
 decl_init_var sta_screen_rts,   $60    ; RTS
 
+.segment "CODE"
+
 ; Adding hacky LDA version of sta_screen. This could likely be
 ; implement more elegantly at some point :-) ...
 lda_screen:
@@ -55,8 +57,6 @@ lda_screen:
 ;-----------------------------------------------------------------------------
 ; Cursor control
 ;-----------------------------------------------------------------------------
-.segment "CODE"
-
 screen_memmap_cursor_move_left_fn:
         lda screen_vec_wr_lo
         bne :+
