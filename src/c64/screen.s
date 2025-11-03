@@ -146,14 +146,14 @@ screen_clr_fn:
 ;-----------------------------------------------------------------------------
 screen_cursor_pos_set_xy_fn:
         txa
-        stx tmp_var_lo
+        stx screen_vec_wr_lo
         ldx #0
-        stx tmp_var_hi
+        stx screen_vec_wr_hi
 
         ldx #5 ; X*32
 @mul_32:
-        asl tmp_var_lo
-        rol tmp_var_hi
+        asl screen_vec_wr_lo
+        rol screen_vec_wr_hi
         dex
         bne @mul_32
 
@@ -161,19 +161,12 @@ screen_cursor_pos_set_xy_fn:
         asl
         asl
         asl
-        vec_add_a tmp_var_lo
+        vec_add_a screen_vec_wr_lo
 
         ; Add Y offset to result.
         tya
-        vec_add_a tmp_var_lo
+        vec_add_a screen_vec_wr_lo
 
         ; Set screen memory base address.
-        lda #<screen_addr_mon
-        clc
-        adc tmp_var_lo
-        sta screen_vec_wr_lo
-        lda tmp_var_hi
-        adc #>screen_addr_mon
-        sta screen_vec_wr_hi
-
+        vec_add_i16 screen_vec_wr_lo, screen_addr_mon
         rts
