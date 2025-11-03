@@ -77,7 +77,7 @@
         adc #<val
         sta vec
         lda vec+1
-        add #>val
+        adc #>val
         sta vec+1
 .endmacro
 
