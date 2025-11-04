@@ -95,20 +95,6 @@ read_next_byte:
         ldy #$00
         jsr sta_mem_y
         vec_inc mem_vec_wr_lo
-
-wait_key:
-        io_key_in_poll
-        cmp #$00
-        beq wait_key
-        cmp #$0d
-        beq rts_exit
-        cmp #':'
-        bne read_next_byte
-
-        jsr screen_draw
-        screen_cursor_pos_set 0,1
-        vec_get_ay mem_vec_wr_lo
-        jsr print_hex16_ay
         jmp read_next_byte
 .endif ; CONFIG_KEY_HANDLER_MEM_EDIT
 
