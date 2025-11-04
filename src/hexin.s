@@ -24,7 +24,10 @@
 read_hex4:
         screen_print_cursor
         io_key_in_blocking
-        cmp #key_code_esc
+        cmp #key_code_esc   ; Abort on ESC key.
+        sec
+        beq @abort
+        cmp #$0d            ; Abort on RETURN key.
         sec
         beq @abort
         cmp #'0'
