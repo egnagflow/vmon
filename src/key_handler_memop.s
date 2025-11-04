@@ -49,6 +49,15 @@ handle_key_set_memory_address:
         jsr read_hex16      ; Get address
         bcs rts_exit        ; Abort
         vec_set_ay mem_addr_lo
+
+inc_mem_vec_wr:
+        ; Instead of using this macro throughout the code below,
+        ; we make it a call. This way we save 7 bytes.
+        ;
+        ; By placing it here we can also re-use the RTS. It won't
+        ; have any effect on handle_key_set_memory_address.
+        ;
+        vec_inc mem_vec_wr_lo
 rts_exit:
         rts
 
@@ -71,7 +80,7 @@ handle_key_edit_memory_inline:
         bcs rts_exit
         ldy #$00
         jsr sta_mem_y
-        vec_inc mem_vec_wr_lo
+        jsr inc_mem_vec_wr
         jsr chrout_space
         jmp @next_byte
 .endif
@@ -86,7 +95,16 @@ handle_key_edit_memory:
         jsr chrout
         jsr read_hex16      ; EDIT address
         bcs rts_exit        ; Abort
+
         vec_set_ay mem_vec_wr_lo
+read_next_line:
+        ; Number of bytes per edit line.
+.if screen_size_y < 40
+        lda #4
+.else
+        lda #8
+.endif
+        sta tmp_var_lo
 
 read_next_byte:
         jsr chrout_space
@@ -94,8 +112,25 @@ read_next_byte:
         bcs rts_exit        ; Abort
         ldy #$00
         jsr sta_mem_y
-        vec_inc mem_vec_wr_lo
-        jmp read_next_byte
+        jsr inc_mem_vec_wr
+
+        dec tmp_var_lo
+        bne read_next_byte
+
+        ; The line is full. Redraw the screen so we can see the
+        ; effects of the memory writes.
+        jsr screen_draw
+
+        ; Set cursor, color and print the next edit address.
+        screen_cursor_pos_set 0,1
+
+        chrout_set_color color_header
+        lda #KEY_EDIT_MEMORY
+        jsr chrout
+        vec_get_ay mem_vec_wr_lo
+        jsr print_hex16_ay
+
+        jmp read_next_line
 .endif ; CONFIG_KEY_HANDLER_MEM_EDIT
 
 ;-----------------------------------------------------------------------------
@@ -122,7 +157,7 @@ handle_key_fill_memory:
 @next_byte:
         ldy #0
         jsr sta_mem_y
-        vec_inc mem_vec_wr_lo
+        jsr inc_mem_vec_wr
 
         ; Check if we reached the end address
         pha
@@ -160,7 +195,7 @@ handle_key_copy_memory:
         jsr sta_mem_y
 
         vec_inc mem_vec_rd_lo
-        vec_inc mem_vec_wr_lo
+        jsr inc_mem_vec_wr
 
         ; Check if we reached the end address
         vec_cmp tmp_var_lo, mem_vec_rd_lo
