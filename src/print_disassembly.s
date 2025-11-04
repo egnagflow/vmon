@@ -243,19 +243,16 @@ print_relative:
 
 ;-----------------------------------------------------------------------------
 get_rel_pc_addr_ay:
-        tax         ; Save offset in X
-        and #$80    ; get sign
-        clc         ; CLC now so it will be pushed for later ADC #2
-        php         ; remember sign
-        txa
-        ldx pc_hi
-        adc pc_lo
+        clc         ; CLC now so it will be pushed for later ADC #2.
+        php         ; Remember sign of branch for later.
+        ldx pc_hi   ; Add branch offset to PC.
+        adc pc_lo   ; PC is still set to the branch instruction address here.
         bcc :+
         inx
 :       plp         ; was it a backwards branch?
-        beq :+      ; no
+        bpl :+      ; no
         dex
-:       adc #2
+:       adc #2      ; Adjust to actual PC used for branching, i.e. next instruction.
         bcc :+
         inx
 :       tay
