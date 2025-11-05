@@ -13,6 +13,8 @@
 CONFIG_INIT_RELOCATE_MONITOR                    := 1
 CONFIG_INIT_RELOCATE_BASIC_START                := 1
 
+CONFIG_OPTIMIZE_MEM_SIZE                        := 1
+
 CONFIG_EXAMPLE_CODE                             := 1
 
 CONFIG_ENABLE_COLOR                             := 1
