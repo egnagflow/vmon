@@ -62,33 +62,31 @@ mon_main_from_basic:
         ; We only need to relocate the BASIC start if it is different from the
         ; requested relocation address.
         lda #>CONFIG_BASIC_START
+        ldy #<CONFIG_BASIC_START+1
+
         cmp basic_start_hi
         bne @do_relocate_basic_start
-        lda #<CONFIG_BASIC_START+1
-        cmp basic_start_lo
+        cpy basic_start_lo
         beq @skip_relocate_basic_start
 
-        lda #>CONFIG_BASIC_START
 @do_relocate_basic_start:
         sta basic_start_hi
-        lda #<CONFIG_BASIC_START+1
-        sta basic_start_lo
+        sty basic_start_lo
 .endif ; CONFIG_INIT_RELOCATE_BASIC_START
 
 .if CONFIG_INIT_RELOCATE_BASIC_END  
 @skip_relocate_basic_start:
         lda #>CONFIG_BASIC_END
+        ldy #<CONFIG_BASIC_END
+
         cmp basic_end_hi
         bne @do_relocate_basic_end
-        lda #<CONFIG_BASIC_END
-        cmp basic_end_lo
+        cpy basic_end_lo
         beq @skip_relocate_basic_end
-        
+
 @do_relocate_basic_end:
-        lda #>CONFIG_BASIC_END
         sta basic_end_hi
-        lda #<CONFIG_BASIC_END
-        sta basic_end_lo
+        sty basic_end_lo
 .endif ; CONFIG_INIT_RELOCATE_BASIC_END
 
 .if CONFIG_INIT_RELOCATE_BASIC_START || CONFIG_INIT_RELOCATE_BASIC_END
