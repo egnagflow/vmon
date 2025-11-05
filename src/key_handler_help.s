@@ -57,6 +57,7 @@ handle_key_help_screen:
 
         print_help                                                       KEY_SET_MEMORY_ADDRESS,        "SET MEM (ADDR)"
         print_help_ifdef CONFIG_KEY_HANDLER_REG_SET,                     KEY_SET_REGISTER_VALUE,        "SET REG (VAL)"
+        print_help_ifdef CONFIG_KEY_HANDLER_GO,                          KEY_GO,                        "GO (ADDR)"
 
         print_help                                                       KEY_SINGLE_STEP_INTO,          "SINGLE STEP INTO"
         print_help                                                       KEY_SINGLE_STEP_OVER,          "SINGLE STEP OVER"
@@ -90,6 +91,7 @@ handle_key_help_screen:
         print_help                                                       KEY_SET_PROGRAM_COUNTER,       "SET PC (ADDR)"
         print_help                                                       KEY_SET_MEMORY_ADDRESS,        "SET MEM ADDRESS (ADDR)"
         print_help_ifdef CONFIG_KEY_HANDLER_REG_SET,                     KEY_SET_REGISTER_VALUE,        "SET REGISTER (VAL)"
+        print_help_ifdef CONFIG_KEY_HANDLER_GO,                          KEY_GO,                        "GO (ADDR)"
 
         print_help                                                       KEY_SINGLE_STEP_INTO,          "SINGLE STEP INTO"
         print_help                                                       KEY_SINGLE_STEP_OVER,          "SINGLE STEP OVER"

@@ -25,6 +25,9 @@ KEY_SET_MEMORY_ADDRESS='M'
 ; Set the value of a register
 KEY_SET_REGISTER_VALUE='R'
 
+; Execute pogram
+KEY_GO='G'
+
 ; Single step instruction into subroutines
 KEY_SINGLE_STEP_INTO='S'
 

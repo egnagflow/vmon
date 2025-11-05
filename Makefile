@@ -47,6 +47,7 @@ SRCS = \
 	$(SRC_DIR)/key_handler_color.s \
 	$(SRC_DIR)/key_handler_display.s \
 	$(SRC_DIR)/key_handler_exec.s \
+	$(SRC_DIR)/key_handler_go.s \
 	$(SRC_DIR)/key_handler_help.s \
 	$(SRC_DIR)/key_handler_memop.s \
 	$(SRC_DIR)/key_handler_nav.s \

@@ -16,6 +16,7 @@
 ; Public API
 ;-----------------------------------------------------------------------------
 .export exec_cur_code_line
+.export exec_custom_jsr_ay
 
 ;-----------------------------------------------------------------------------
 ; Initialized virtual registers
@@ -198,6 +199,15 @@ branch_mask_table:  ; b=0  b=1
 
 ;-----------------------------------------------------------------------------
 .segment "CODE"
+exec_custom_jsr_ay:
+        sty exec_buf_opcode+1
+        sta exec_buf_opcode+2
+        screen_switch_to_user
+        lda #$20
+        pha
+        sta exec_buf_opcode
+        bne do_exec_custom_inline   ; BRA
+
 exec_inline:
         jsr lda_pc_y0
         pha             ; Remember opcode for monitor switch test later.
@@ -222,6 +232,7 @@ copy:
         txa             ; Opcode len in X.
         jsr pc_add      ; Adjust PC to after current opcode.
 
+do_exec_custom_inline:
 .if CONFIG_STACK_RESTORE
         ; Save the stack bytes around SP. These bytes may be
         ; overwritten by the pha/plp - php/pla combination below. We want
