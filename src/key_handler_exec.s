@@ -157,10 +157,16 @@ handle_key_cont_step_into_until_addr_abort:
 .if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
 handle_key_resume_last_run_mode:
         lda run_mode
+.if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS
         beq handle_key_cont_step_into_until_rts_continue
+.endif
+.if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_RTS
         bmi handle_key_cont_step_over_until_rts_continue
+.endif
+.if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
         lsr
         bcs handle_key_cont_step_into_until_addr_continue
+.endif
         rts
 .endif
 
