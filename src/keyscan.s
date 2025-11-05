@@ -20,7 +20,10 @@
 .export keyscan_key_poll
 
 ;-----------------------------------------------------------------------------
-; Generic keyscan implementaion 
+; Built in keyscan implementaion 
+;
+; This implementation works for VIC20 and C64 as they use the same method to
+; scan key presses. It may also work for other machines.
 ;-----------------------------------------------------------------------------
 .segment "DATA"
 keyscan_tmp:   .res 1

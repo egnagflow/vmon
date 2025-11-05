@@ -7,6 +7,9 @@
 ;
 ;-----------------------------------------------------------------------------
 
+;-----------------------------------------------------------------------------
+; IO implements the key input, character out and string printing APIs
+;-----------------------------------------------------------------------------
 .include "target.h"
 .include "screen.h"
 .include "io.h"
@@ -94,9 +97,10 @@ chrout_home:
 .endif ; CONFIG_ENABLE_COLOR
 
 ;-----------------------------------------------------------------------------
-; Print the string pointed to by Y/A (H/L).
+; Print the string pointed to by A/Y (H/L).
 ;
-; This routine imlements a poor man's run time length encoding:
+; This routine imlements a poor man's run time length encoding if
+; CONFIG_OPTIMIZE_MEM_SIZE is set:
 ;   If a characted in the string has bit 7 set it means that it is not a
 ;   printable character but a counter and the following character should be
 ;   printed that many times.

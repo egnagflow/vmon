@@ -112,9 +112,9 @@ color_memdump           = color_code_blue
 ;-----------------------------------------------------------------------------
 .if CONFIG_VIC20_RAM_EXPANSION = 0 ; unexpanded
 ; $1000 - $1bff         ; BASIC RAM after RESET
-; $1000 - CODE_END -1   ; Monitor code when loaded as BASIC PRG
+; $1000 - CODE_END -1   ; VMON code when loaded as BASIC PRG
 ; CODE_END - $1bff      ; Relocated BASIC RAM
-; $1c00 - $1dff         ; Monitor screen
+; $1c00 - $1dff         ; VMON screen
 ; $1e00 - $1fff         ; Native screen
 ; Screen/color memory addresses
 screen_addr_native  = $1e00
@@ -126,9 +126,9 @@ CONFIG_BASIC_END    = $1c00
 
 .elseif CONFIG_VIC20_RAM_EXPANSION = 3
 ; $0400 - $1bff         ; BASIC RAM after RESET
-; $0400 - CODE_END -1   ; Monitor code when loaded as BASIC PRG
+; $0400 - CODE_END -1   ; VMON code when loaded as BASIC PRG
 ; CODE_END - $1bff      ; Relocated BASIC RAM
-; $1c00 - $1dff         ; Monitor screen
+; $1c00 - $1dff         ; VMON screen
 ; $1e00 - $1fff         ; Native screen
 ; Screen/color memory addresses
 screen_addr_native  = $1e00
@@ -141,8 +141,8 @@ CONFIG_BASIC_END    = $1c00
 .elseif CONFIG_VIC20_RAM_EXPANSION = 8
 ; $1000 - ...           ; Native BASIC RAM
 ; $1000 - $11ff         ; Native screen
-; $1200 - $13ff         ; Monitor screen
-; $1400 - CODE_END -1   ; Monitor code when loaded as BASIC PRG
+; $1200 - $13ff         ; VMON screen
+; $1400 - CODE_END -1   ; VMON code when loaded as BASIC PRG
 ; CODE_END - ...        ; Relocated BASIC RAM
 ; Screen/color memory addresses
 screen_addr_native  = $1000

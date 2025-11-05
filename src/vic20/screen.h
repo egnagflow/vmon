@@ -13,7 +13,7 @@ _SCREEN_H_ := 1
 .include "screen_config.h"
 
 ;-----------------------------------------------------------------------------
-; Include generic macros for memmapped screens
+; Include API macros for memmapped screens
 ;-----------------------------------------------------------------------------
 .include "screen_memmap.h"
 

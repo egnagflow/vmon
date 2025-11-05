@@ -47,7 +47,7 @@ CONFIG_KEY_HANDLER_MEM_EDIT                     := 1
 CONFIG_KEY_HANDLER_MEM_FILL                     := 1
 CONFIG_KEY_HANDLER_MEM_COPY                     := 1
 
-; Address of screen memory used by the monitor.
+; Address of screen memory used by VMON.
 ; This value needs to be in the range between $0800 and $3c00
 ; in $0400 increments.
 ;
@@ -57,7 +57,7 @@ CONFIG_KEY_HANDLER_MEM_COPY                     := 1
 ;  3) Place screen anywhere if BASIC is no needed
 CONFIG_MON_SCREEN_ADDR                          := $0800
 
-; Address for saving color RAM when switching between monitor
+; Address for saving color RAM when switching between VMON
 ; and native screen.
 ; This is 1 KB of size and can placed anywhere in the address
 ; space where RAM is available.

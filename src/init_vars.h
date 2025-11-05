@@ -45,8 +45,8 @@ _INIT_VARS_H_ := 1
   ; Note:
   ;  For non-ROM builds the variables will only be
   ;  initialized at load time, i.e. when quitting and
-  ;  restarting the monitor, the variables will retain
-  ;  their last state.
+  ;  restarting VMON, the variables will retain their
+  ;  last state.
   api_macro_not_implemented setup_init_vars
 
 .endif ; CONFIG_ROM_BUILD

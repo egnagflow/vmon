@@ -81,7 +81,7 @@ KEY_DISASS_SCROLL_UP=key_code_crsr_up
 ; Scroll down disassembly display one line
 KEY_DISASS_SCROLL_DOWN=key_code_crsr_dn
 
-; Quit the monitor
+; Quit VMON
 KEY_QUIT='Q'
 
 ; Pause / abort execution

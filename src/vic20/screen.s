@@ -29,7 +29,7 @@
 ;
 ; Screen mapping depending on available memory expansions.
 ;
-; Expn   Native  Native   Monitor Monitor  BASIC
+; Expn   Native  Native   VMON    VMON     BASIC
 ;        Char    Color    Char    Color    Start
 ; ------------------------------------------------
 ; None   $1E00   $9600    $1C00   $9400    $1000
@@ -114,7 +114,7 @@ save_color:     .res 1
 
 screen_switch_to_user_fn:
         lda #($16 | ((screen_addr_native >> 2) & $80))
-        sta viccr2   ;$9002 - number of columns, part os screen map addr.
+        sta viccr2   ;$9002 - number of columns, part of screen map addr.
         lda #($80 | ((screen_addr_native >> 6) & $70))
         sta viccr5   ;$9005 - screen map & character map address
 .if CONFIG_ENABLE_COLOR
@@ -126,7 +126,7 @@ screen_switch_to_user_fn:
 ;-----------------------------------------------------------------------------
 screen_switch_to_mon_fn:
         lda #($16 | ((screen_addr_mon >> 2) & $80))
-        sta viccr2   ;$9002 - number of columns, part os screen map addr.
+        sta viccr2   ;$9002 - number of columns, part of screen map addr.
         lda #($80 | ((screen_addr_mon >> 6) & $70))
         sta viccr5   ;$9005 - screen map & character map address
 .if CONFIG_ENABLE_COLOR

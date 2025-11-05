@@ -75,17 +75,17 @@ exec_handle_jmp_ind:
 exec_handle_jsr:
         ldy virt_reg_sp
         dey
-        lda pc_lo
+        lda pc_lo       ; Put return address low byte on the stack.
         clc
-        adc #$02
-        sta $100,y
+        adc #$02        ; Return address = current address + 2
+        sta $100,y      ; Save low byte on stack.
         lda pc_hi
         adc #0
-        sta $101,y
+        sta $101,y      ; Put high byte on stack
         dey
-        sty virt_reg_sp
+        sty virt_reg_sp ; Update virtual stack pointer register.
 
-        ldy #1
+        ldy #1          ; Set PC to the subroutine address.
         jsr lda_pc_y
         tax
         iny
@@ -96,14 +96,17 @@ exec_handle_jsr:
 
 ;-----------------------------------------------------------------------------
 exec_handle_rts:
-        ldy virt_reg_sp
+        ldy virt_reg_sp ; Get return address from stack
         iny
         lda $100,y
-        sta pc_lo
+        sta pc_lo       ; and save to PC low and high bytes.
         lda $101,y
         sta pc_hi
         iny
-        sty virt_reg_sp
+        sty virt_reg_sp ; Update virtual stack pointer register.
+
+        ; Return address on stack is actual address - 1, so we
+        ; need to increment the PC once.
         jmp pc_inc
 
 ;-----------------------------------------------------------------------------
@@ -201,7 +204,7 @@ flag_is_set:
 
 exec_inline:
         jsr lda_pc_y0
-        pha             ; Remember opcode for monitor switch test later.
+        pha             ; Remember opcode for VMON switch test later.
         jsr opcode_len
         tay
         tax             ; Remember opcode len for pc_add below.
@@ -269,7 +272,7 @@ do_exec_custom_inline:
         pha
 .endif ; CONFIG_STACK_RESTORE
 
-        tsx             ; Save monitor's SP
+        tsx             ; Save VMON's SP
         stx tmp_var_lo
 
         ; Load up emulated registers
@@ -306,7 +309,7 @@ exec_cont:
         tsx
         stx virt_reg_sp
 
-        ; Restore monitor's SP.
+        ; Restore VMON's SP.
         ldx tmp_var_lo
         txs
 

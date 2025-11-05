@@ -53,7 +53,7 @@ handle_key_single_step_into:
         jmp exec_cur_code_line
 
 ;-----------------------------------------------------------------------------
-; INSPECT while single-stepping until RTS
+; Context data for the various run modes
 ;-----------------------------------------------------------------------------
 .segment "DATA"
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS || CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
@@ -62,19 +62,23 @@ until_addr:
         .res 1
 .endif
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
-        .res 1
+        .res 1 ; High byte of until_addr.
 .endif
 
 .if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
 .define RUN_MODE_STEP_INTO_UNTIL_RTS    $00   ; BEQ
 .define RUN_MODE_STEP_OVER_UNTIL_RTS    $80   ; BMI
-.define RUN_MODE_STEP_INTO_UNTIL_ADDR   $01   ; BCS
+.define RUN_MODE_STEP_INTO_UNTIL_ADDR   $01   ; LSR, BCS
 .define RUN_MODE_NONE                   $02
 decl_init_var run_mode, RUN_MODE_NONE
 .endif
 
 .segment "CODE"
 
+;-----------------------------------------------------------------------------
+; Execute 'step into' until we hit a RTS instruction at the _current_ stack
+; frame. 
+;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS
 handle_key_cont_step_into_until_rts:
         ldy virt_reg_sp
@@ -102,7 +106,8 @@ handle_key_i_update:
 .endif ; CONFIG_KEY_HANDLER_SINGLE_STEP_INTO_UNTIL_RTS
 
 ;-----------------------------------------------------------------------------
-; CONTINUE single-stepping until RTS
+; Execute 'step over' until we hit a RTS instruction at the _current_ stack
+; frame. 
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_RTS
 handle_key_cont_step_over_until_rts:
@@ -124,7 +129,7 @@ handle_key_cont_step_over_until_rts_continue:
 .endif ; CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_RTS
 
 ;-----------------------------------------------------------------------------
-; Step into until given address
+; Execute 'step over' until we hit the specified address.
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
 handle_key_cont_step_into_until_addr:
@@ -152,7 +157,7 @@ handle_key_cont_step_into_until_addr_abort:
 .endif ; CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
 
 ;-----------------------------------------------------------------------------
-; Resume last run mode
+; Resume last run mode.
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_RESUME_LAST_RUN_MODE
 handle_key_resume_last_run_mode:
@@ -170,6 +175,8 @@ handle_key_resume_last_run_mode:
         rts
 .endif
 
+;-----------------------------------------------------------------------------
+; Helper function to exit run mode on any key press
 ;-----------------------------------------------------------------------------
 check_abort_execution:
         io_key_in_poll

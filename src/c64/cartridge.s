@@ -51,7 +51,7 @@ wait_for_yn:
         bne check_n
 
         ; "Y" key pressed, set up the QUIT vector
-        ; "RESET" so we will cleanly exit the monitor
+        ; "RESET" so we will cleanly exit VMON
         ; later.
         lda #<cartridge_quit
         sta vec_mon_exit
@@ -66,7 +66,7 @@ check_n:
         bne wait_for_yn
 
         ; "N" key pressed.
-        ; Regular boot or QUIT from monitor
+        ; Regular boot or QUIT from VMON
         ; after it has been started at boot
 cartridge_quit:
         ; This code is identical to the ROM RESET code.
@@ -80,8 +80,8 @@ cartridge_quit:
         jsr kernal_init_screen_kbd
 
 .if CONFIG_HANDLE_BRK
-        ; Set up the BRK handler so we enter the
-        ; monitor if a BRK instruction is executed.
+        ; Set up the BRK handler so we enter
+        ; VMON if a BRK instruction is executed.
         jsr brk_handler_init
 .endif ; CONFIG_HANDLE_BRK
 

@@ -31,7 +31,8 @@
 ; memory for storing vectors. We don't want to make assumptions about which
 ; zero-page memory is available.
 ;
-; These access functions live in "regular", non-zero-page memory.
+; These access functions live in the DATA (RAM build) or INITVARS_RAM (ROM
+; build) segment.
 ;-----------------------------------------------------------------------------
 
 ; STA screen_vec_wr_lo

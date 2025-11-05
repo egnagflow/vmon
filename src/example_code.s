@@ -16,9 +16,9 @@
 .export example_code
 
 ;-----------------------------------------------------------------------------
-; Example code to point the PC to when the monitor starts.
+; Example code to point the PC to when VMON starts.
 ;
-; When the monitor starts, the memory dump address is set to $0000.
+; When VMON starts, the memory dump address is set to $0000.
 ; Therefore, the example uses this memory so its effect is visible without
 ; having to change the memory dump address.
 ;-----------------------------------------------------------------------------

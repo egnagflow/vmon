@@ -40,12 +40,12 @@ tmp_var_hi:             .res 1
 shared_tmp:             .res 1 ; Globally available tmp variable
 
 ;-----------------------------------------------------------------------------
-; To save original BASIC warm start vector. Called when monitor exits.
+; To save original BASIC warm start vector. Called when VMON exits.
 ;-----------------------------------------------------------------------------
 vec_mon_exit:           .res 2
 
 ;-----------------------------------------------------------------------------
-; Monitor entry points
+; VMON entry points
 ;-----------------------------------------------------------------------------
 .segment "INIT"
 mon_main_from_basic:
@@ -108,7 +108,7 @@ mon_main_from_basic:
 .endif ; CONFIG_INIT_RELOCATE_BASIC_START || CONFIG_INIT_RELOCATE_BASIC_END
 
 ;-----------------------------------------------------------------------------
-; Entry point for monitor when running from a ROM cartridge
+; Entry point for VMON when running from a ROM cartridge
 ;-----------------------------------------------------------------------------
 mon_main_from_cartridge:
 
@@ -139,12 +139,12 @@ mon_main_from_cartridge:
         setup_init_vars
 
 ;-----------------------------------------------------------------------------
-; Monitor entry point for BRK instruction
+; VMON entry point for BRK instruction
 ;-----------------------------------------------------------------------------
 ; Entry for handling BRK instruction
 mon_brk_entry:
 
-        ; Set stack to $17f for monitor
+        ; Set stack to $17f for VMON
         ldx #$7f
         txs
 
@@ -180,7 +180,7 @@ main_loop:
 ;-----------------------------------------------------------------------------
 ; Dummy CODE_END segment
 ;
-; This is used to determine the end of the monitor code for relocating
+; This is used to determine the end of the VMON code for relocating
 ; BASIC memory if needed.
 ;-----------------------------------------------------------------------------
 .segment "CODE_END"
