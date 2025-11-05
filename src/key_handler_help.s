@@ -67,11 +67,11 @@ handle_key_help_screen:
 
         print_help_ifdef CONFIG_KEY_HANDLER_SCREEN_SHOW,                 KEY_SHOW_SCREEN,               "SHOW DEBUG SCREEN"
 
-        print_help_ifdef CONFIG_KEY_HANDLER_MEM_TOGGLE,                  KEY_TOGGLE_MEMORY_DISPLAY,     "TOGGLE MEMORY SIZE"
-        print_help                                                       KEY_MEMORY_SCROLL_UP,          "MEMORY SCROLL UP"
-        print_help                                                       KEY_MEMORY_SCROLL_DOWN,        "MEMORY SCROLL DOWN"
-        print_help                                                       KEY_MEMORY_PAGE_UP,            "MEMORY PAGE UP"
-        print_help                                                       KEY_MEMORY_PAGE_DOWN,          "MEMORY PAGE DOWN"
+        print_help_ifdef CONFIG_KEY_HANDLER_MEM_TOGGLE,                  KEY_TOGGLE_MEMORY_DISPLAY,     "TOGGLE MEM SIZE"
+        print_help                                                       KEY_MEMORY_SCROLL_UP,          "MEM SCROLL UP"
+        print_help                                                       KEY_MEMORY_SCROLL_DOWN,        "MEM SCROLL DOWN"
+        print_help                                                       KEY_MEMORY_PAGE_UP,            "MEM PAGE UP"
+        print_help                                                       KEY_MEMORY_PAGE_DOWN,          "MEM PAGE DOWN"
 
         print_str_at xpos, 0,                                                                           "CRSR UP/DN: OPC UP/DN"
 
@@ -88,7 +88,7 @@ handle_key_help_screen:
         xpos .set xpos + 1
         xpos .set xpos + 1
         print_help                                                       KEY_SET_PROGRAM_COUNTER,       "SET PC (ADDR)"
-        print_help                                                       KEY_SET_MEMORY_ADDRESS,        "SET MEMORY ADDRESS (ADDR)"
+        print_help                                                       KEY_SET_MEMORY_ADDRESS,        "SET MEM ADDRESS (ADDR)"
         print_help_ifdef CONFIG_KEY_HANDLER_REG_SET,                     KEY_SET_REGISTER_VALUE,        "SET REGISTER (VAL)"
 
         print_help                                                       KEY_SINGLE_STEP_INTO,          "SINGLE STEP INTO"
