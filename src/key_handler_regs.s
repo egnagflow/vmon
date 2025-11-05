@@ -30,10 +30,8 @@ add_key_handler KEY_SET_REGISTER_VALUE, handle_key_set_register_value
 ; Set PC
 ;-----------------------------------------------------------------------------
 handle_key_set_program_counter:
-        screen_cursor_pos_set 0,1
         lda #KEY_SET_PROGRAM_COUNTER
-        jsr chrout
-        jsr read_hex16
+        jsr key_handler_read_hex16
         bcs abort_set_pc  ; Abort
         sta pc_hi
         sty pc_lo

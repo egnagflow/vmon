@@ -44,6 +44,7 @@ SRCS = \
 	$(SRC_DIR)/print_mem_dump.s \
 	$(SRC_DIR)/keyscan.s \
 	$(SRC_DIR)/key_handler.s \
+	$(SRC_DIR)/key_handler_common.s \
 	$(SRC_DIR)/key_handler_color.s \
 	$(SRC_DIR)/key_handler_display.s \
 	$(SRC_DIR)/key_handler_exec.s \

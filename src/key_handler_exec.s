@@ -128,10 +128,8 @@ handle_key_cont_step_over_until_rts_continue:
 ;-----------------------------------------------------------------------------
 .if CONFIG_KEY_HANDLER_SINGLE_STEP_OVER_UNTIL_ADDR
 handle_key_cont_step_into_until_addr:
-        screen_cursor_pos_set 0,1
         lda #KEY_CONT_STEP_OVER_UNTIL_ADDR
-        jsr chrout
-        jsr read_hex16
+        jsr key_handler_read_hex16
         bcs handle_key_cont_step_into_until_addr_abort  ; Abort
         vec_set_ay until_addr
 
