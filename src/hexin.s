@@ -20,7 +20,38 @@
 ;------------------------------------------------------------------------------
 .segment "CODE"
 
-;------------------------------------------------------------------------------
+; PETSCII table for reference:
+;
+;   +-----+-----+------+
+;   | Dec | Hex | Char |
+;   +-----+-----+------+
+;   | 47  | $2F |  /   |
+;   | 48  | $30 |  0   |
+;   | 49  | $31 |  1   |
+;   | 50  | $32 |  2   |
+;   | 51  | $33 |  3   |
+;   | 52  | $34 |  4   |
+;   | 53  | $35 |  5   |
+;   | 54  | $36 |  6   |
+;   | 55  | $37 |  7   |
+;   | 56  | $38 |  8   |
+;   | 57  | $39 |  9   |
+;   | 58  | $3A |  :   |
+;   | 59  | $3B |  ;   |
+;   | 60  | $3C |  <   |
+;   | 61  | $3D |  =   |
+;   | 62  | $3E |  >   |
+;   | 63  | $3F |  ?   |
+;   | 64  | $40 |  @   |
+;   | 65  | $41 |  A   |
+;   | 66  | $42 |  B   |
+;   | 67  | $43 |  C   |
+;   | 68  | $44 |  D   |
+;   | 69  | $45 |  E   |
+;   | 70  | $46 |  F   |
+;   | 71  | $47 |  G   |
+;   +-----+-----+------+
+
 read_hex4:
         screen_print_cursor
         io_key_in_blocking
@@ -30,20 +61,26 @@ read_hex4:
         cmp #$0d            ; Abort on RETURN key.
         sec
         beq @abort
-        cmp #'0'
-        bmi read_hex4
 
+        ; Check for valid hex character.
+        cmp #'0'        ; <'0'?
+        bcc read_hex4
+        cmp #'F'+1      ; >='G'?
+        bcs read_hex4
+        cmp #'A'        ; >='A'?
+        bcs @valid
+        cmp #'9'+1      ; >=':'?
+        bcs read_hex4
+
+@valid:
         jsr chrout
         sec
         sbc #$30
-        bmi read_hex4
-        cmp #$0a
-        bmi @ok
+        cmp #$0a    ; 0x00..0x09?
+        bcc @done   ; Yes.
         sec
-        sbc #$07
-        cmp #$10
-        bpl read_hex4
-@ok:
+        sbc #$07    ; 0x0a..0x0f.
+@done:
         clc             ; OK
 @abort:
         rts
