@@ -183,12 +183,6 @@ exec_branch_adj_pc:
         sty pc_lo
         rts
 
-        ; Flag is set
-flag_is_set:
-        plp
-        bne exec_branch_adj_pc
-        ; Fall through
-
 ;-----------------------------------------------------------------------------
 .segment "ROM"
 branch_mask_table:  ; b=0  b=1
@@ -199,14 +193,11 @@ branch_mask_table:  ; b=0  b=1
 
 ;-----------------------------------------------------------------------------
 .segment "CODE"
-exec_custom_jsr_ay:
-        sty exec_buf_opcode+1
-        sta exec_buf_opcode+2
-        screen_switch_to_user
-        lda #$20
-        pha
-        sta exec_buf_opcode
-        bne do_exec_custom_inline   ; BRA
+        ; Flag is set
+flag_is_set:
+        plp
+        bne exec_branch_adj_pc
+        ; Fall through
 
 exec_inline:
         jsr lda_pc_y0
@@ -345,3 +336,13 @@ no_inc:
         screen_switch_to_mon
 no_set_mon:
         rts
+
+;-----------------------------------------------------------------------------
+exec_custom_jsr_ay:
+        sty exec_buf_opcode+1
+        sta exec_buf_opcode+2
+        screen_switch_to_user
+        lda #$20
+        pha
+        sta exec_buf_opcode
+        bne do_exec_custom_inline   ; BRA
