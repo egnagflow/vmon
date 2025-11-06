@@ -9,3 +9,4 @@
 
 CARTRIDGE_TYPE    = normal
 CARTRIDGE_ADDRESS = 32768
+IMAGE_SUFFIX      = bin

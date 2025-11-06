@@ -7,8 +7,9 @@
 #
 ############################################################################
 
-PLATFORM ?= vic20
-TARGET   ?= unexpanded
+PLATFORM     ?= vic20
+TARGET       ?= unexpanded
+IMAGE_SUFFIX ?= prg
 
 IMAGE = $(PLATFORM)_$(TARGET)
 
@@ -75,7 +76,7 @@ endif
 
 OBJS = ${SRCS:s=o}
 
-PRG = $(IMAGES_DIR)/$(IMAGE).prg
+PRG = $(IMAGES_DIR)/$(IMAGE).$(IMAGE_SUFFIX)
 LBL = $(IMAGES_DIR)/$(IMAGE).lbl
 CRT = $(IMAGES_DIR)/$(PLATFORM)_$(TARGET).crt
 
