@@ -18,12 +18,16 @@
 ;-----------------------------------------------------------------------------
 ; Example code to point the PC to when VMON starts.
 ;
-; When VMON starts, the memory dump address is set to $0000.
-; Therefore, the example uses this memory so its effect is visible without
-; having to change the memory dump address.
+; If CONFIG_EXAMPLE_CODE is defined, the memory dump address will be
+; set to $00f8 so we can see the effects of the example code in the
+; memory dump.
+;
+; The example code is using $fc as the source vector which is unused.
+; The string will be stored at $0100 which is used by BASIC as a
+; temporary buffer.
 ;-----------------------------------------------------------------------------
-vec     = $4
-dest    = $8
+vec     = $fc
+dest    = $100
 
 .segment "CODE"
 .if CONFIG_EXAMPLE_CODE_NOPS

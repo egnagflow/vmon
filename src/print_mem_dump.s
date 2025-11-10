@@ -27,8 +27,17 @@ num_mem_lines_init = mem_dump_num_lines_low
 decl_init_var num_mem_lines, num_mem_lines_init
 
 ; Address to use for hex dump display.
+.if CONFIG_EXAMPLE_CODE
+; If the example code is enabled we set the memory dump address to the region
+; the example code is operating on. This way we can see what's going on. See
+; example_code.s.
+;
+decl_init_var mem_addr_lo, $f8    ; LO Address of memory dump
+decl_init_var mem_addr_hi, 0      ; HI Address of memory dump
+.else
 decl_init_var mem_addr_lo, 0      ; LO Address of memory dump
 decl_init_var mem_addr_hi, 0      ; HI Address of memory dump
+.endif
 
 ;------------------------------------------------------------------------------
 .segment "CODE"
