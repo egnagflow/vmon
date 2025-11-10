@@ -25,9 +25,6 @@
 ; This implementation works for VIC20 and C64 as they use the same method to
 ; scan key presses. It may also work for other machines.
 ;-----------------------------------------------------------------------------
-.segment "DATA"
-keyscan_tmp:   .res 1
-
 ;-----------------------------------------------------------------------------
 ; keyscan_key_poll
 ;-----------------------------------------------------------------------------
@@ -99,7 +96,7 @@ next_row:
         bne next_row    ; Always take branch.
 
 keyscan_row_found:
-        stx keyscan_tmp ; Save row number.
+        stx gs_keyscan  ; Save row number.
 
         ldy #0
         lda #%11111110
@@ -116,13 +113,13 @@ scan_col:
         bne scan_col
 
 keyscan_col_found:
-        lda keyscan_tmp ; Get row number.
+        lda gs_keyscan  ; Get row number.
         asl             ; and multiply by 8.
         asl
         asl
         clc             ; Add column offset.
-        sty keyscan_tmp
-        adc keyscan_tmp
+        sty gs_keyscan
+        adc gs_keyscan
         tay
         
         lda keyscan_key_table,y

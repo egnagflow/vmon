@@ -60,12 +60,12 @@ check_reg_name:
         bmi read_reg_name
 
 found:
-        stx tmp_var_lo
+        stx gs_key_handler_regs
         jsr chrout          ; Print register name
         jsr chrout_space
         jsr read_hex8
         bcs abort_set_reg
-        ldx tmp_var_lo
+        ldx gs_key_handler_regs
         sta virt_reg_a,x
 abort_set_reg:
         rts

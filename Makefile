@@ -40,6 +40,7 @@ SRCS = \
 	$(SRC_DIR)/example_code.s \
 	$(SRC_DIR)/screen.s \
 	$(SRC_DIR)/screen_memmap.s \
+	$(SRC_DIR)/shared_vars.s \
 	$(SRC_DIR)/print_registers.s \
 	$(SRC_DIR)/print_disassembly.s \
 	$(SRC_DIR)/print_mem_dump.s \

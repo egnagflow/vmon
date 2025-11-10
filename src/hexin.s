@@ -99,10 +99,10 @@ read_hex8:
         asl
         asl
         asl
-        sta shared_tmp
+        sta gs_hexin
         jsr read_hex4
         bcs @abort
-        ora shared_tmp
+        ora gs_hexin
 @abort:
         rts
 

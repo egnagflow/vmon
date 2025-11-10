@@ -49,7 +49,7 @@ handle_key_single_step_over:
         .byte $2c   ; BIT abs
 handle_key_single_step_into:
         lda #$4c    ; Will be used in exec_cur_code_line.
-        sta tmp_var_lo
+        sta gs_key_handler_exec
         jmp exec_cur_code_line
 
 ;-----------------------------------------------------------------------------

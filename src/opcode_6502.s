@@ -62,9 +62,6 @@
 ;-----------------------------------------------------------------------------
 ; Local implementation
 ;-----------------------------------------------------------------------------
-.segment "DATA"
-offset:     .res 1
-
 ;-----------------------------------------------------------------------------
 ; Note:
 ;   In order to save memory the tables below do not contain the columns that
@@ -178,14 +175,14 @@ opcode_table_index:
         txa
         lsr a
         lsr a
-        sta offset
+        sta gs_opcode_6502
         asl a
-        adc offset
-        sta offset         ; (opc & 0xfc) * 3
+        adc gs_opcode_6502
+        sta gs_opcode_6502  ; (opc & 0xfc) * 3
 
         txa
         and #%00000011
-        adc offset         ; + (opc & 0x03)
+        adc gs_opcode_6502  ; + (opc & 0x03)
 exit:
         rts
 

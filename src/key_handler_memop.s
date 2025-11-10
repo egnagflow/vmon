@@ -68,7 +68,7 @@ handle_key_edit_memory:
 read_next_line:
         ; Number of bytes per edit line.
         lda #mem_dump_num_bytes
-        sta tmp_var_lo
+        sta gs_key_handler_memop
 
 read_next_byte:
         jsr chrout_space
@@ -78,7 +78,7 @@ read_next_byte:
         jsr sta_mem_y
         jsr inc_mem_vec_wr
 
-        dec tmp_var_lo
+        dec gs_key_handler_memop
         bne read_next_byte
 
         ; The line is full. Redraw the screen so we can see the
@@ -110,7 +110,7 @@ handle_key_fill_memory:
         jsr chrout_space
         jsr read_hex16      ; END address
         bcs @abort          ; Abort
-        vec_set_ay tmp_var_lo
+        vec_set_ay gs_key_handler_memop_vec
 
         jsr chrout_space
         jsr read_hex8       ; Value
@@ -123,7 +123,7 @@ handle_key_fill_memory:
 
         ; Check if we reached the end address
         pha
-        vec_cmp tmp_var_lo, mem_vec_wr_lo
+        vec_cmp gs_key_handler_memop_vec, mem_vec_wr_lo
         pla
         bcs @next_byte
 @abort:
@@ -143,7 +143,7 @@ handle_key_copy_memory:
         jsr chrout_space
         jsr read_hex16      ; FROM END
         bcs @abort          ; Abort
-        vec_set_ay tmp_var_lo
+        vec_set_ay gs_key_handler_memop_vec
 
         jsr chrout_space
         jsr read_hex16      ; TO
@@ -158,7 +158,7 @@ handle_key_copy_memory:
         jsr inc_mem_vec_wr
 
         ; Check if we reached the end address
-        vec_cmp tmp_var_lo, mem_vec_rd_lo
+        vec_cmp gs_key_handler_memop_vec, mem_vec_rd_lo
         bcs @next_byte
 @abort:
         rts

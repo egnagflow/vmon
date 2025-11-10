@@ -129,8 +129,8 @@ exec_cur_code_line:
 
         ; If we get here we have either a branch instruction or a JSR.
         ;
-        ; tmp_var_lo is being set to either $20 (STEP_INTO was pressed) or $4c
-        ; (STEP_OVER was pressed) by the calling code.
+        ; gs_key_handler_exec is being set to either $20 (STEP_INTO was
+        ; pressed) or $4c (STEP_OVER was pressed) by the calling code.
         ;
         ; If 'STEP_OVER' was pressed and the opcode is JSR ($20) then the cpy
         ; below will be true and JSR calls will be executed inline.
@@ -139,7 +139,7 @@ exec_cur_code_line:
         ; below will be false and the JSR instruction will be handled in the
         ; exec_handle_jsr call.
         ;
-        cpy tmp_var_lo          ; Execute JSR?
+        cpy gs_key_handler_exec ; Execute JSR?
         bne exec_single_step    ; No, single-step
 
         screen_switch_to_user   ; Yes, switch screen and
@@ -273,7 +273,7 @@ do_exec_custom_inline:
 .endif ; CONFIG_STACK_RESTORE
 
         tsx             ; Save VMON's SP
-        stx tmp_var_lo
+        stx gs_key_handler_exec
 
         ; Load up emulated registers
         ldx virt_reg_sp
@@ -310,7 +310,7 @@ exec_cont:
         stx virt_reg_sp
 
         ; Restore VMON's SP.
-        ldx tmp_var_lo
+        ldx gs_key_handler_exec
         txs
 
 .if CONFIG_STACK_RESTORE
