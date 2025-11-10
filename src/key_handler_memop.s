@@ -95,11 +95,7 @@ handle_key_edit_memory:
         vec_set_ay mem_vec_wr_lo
 read_next_line:
         ; Number of bytes per edit line.
-.if screen_size_y < 40
-        lda #4
-.else
-        lda #8
-.endif
+        lda #mem_dump_num_bytes
         sta tmp_var_lo
 
 read_next_byte:
