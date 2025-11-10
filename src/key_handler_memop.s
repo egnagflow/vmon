@@ -24,10 +24,6 @@ add_key_handler KEY_SET_MEMORY_ADDRESS, handle_key_set_memory_address
 add_key_handler KEY_EDIT_MEMORY, handle_key_edit_memory
 .endif
 
-.if CONFIG_KEY_HANDLER_MEM_EDIT_INLINE
-add_key_handler KEY_EDIT_MEMORY_INLINE, handle_key_edit_memory_inline
-.endif
-
 .if CONFIG_KEY_HANDLER_MEM_FILL
 add_key_handler KEY_FILL_MEMORY, handle_key_fill_memory
 .endif
@@ -58,30 +54,6 @@ inc_mem_vec_wr:
         vec_inc mem_vec_wr_lo
 rts_exit:
         rts
-
-;------------------------------------------------------------------------------
-; Edit memory inline
-;------------------------------------------------------------------------------
-.if CONFIG_KEY_HANDLER_MEM_EDIT_INLINE
-handle_key_edit_memory_inline:
-        lda #screen_size_x
-        sec
-        sbc num_mem_lines
-        tax
-        ldy #5
-        screen_cursor_pos_set_xy
-
-        vec_get_ay mem_addr_lo
-        vec_set_ay mem_vec_wr_lo
-@next_byte:
-        jsr read_hex8
-        bcs rts_exit
-        ldy #0
-        jsr sta_mem_y
-        jsr inc_mem_vec_wr
-        jsr chrout_space
-        jmp @next_byte
-.endif
 
 ;------------------------------------------------------------------------------
 ; Edit memory
