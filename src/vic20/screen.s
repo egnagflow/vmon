@@ -24,7 +24,6 @@
 
 .export screen_switch_to_mon_fn
 .export screen_switch_to_user_fn
-.export screen_cursor_pos_set_xy_fn
 
 ;-----------------------------------------------------------------------------
 ;
@@ -186,35 +185,3 @@ screen_clr_fn:
         inx
         bne :-
         jmp chrout_home
-
-;-----------------------------------------------------------------------------
-; Cursor handling
-;-----------------------------------------------------------------------------
-screen_cursor_pos_set_xy_fn:
-        txa
-        stx screen_vec_wr_lo
-        ldx #0
-        stx screen_vec_wr_hi
-
-        ldx #4 ; X*16
-@mul_16:
-        asl screen_vec_wr_lo
-        rol screen_vec_wr_hi
-        dex
-        bne @mul_16
-
-        ldx #6 ; +6*X
-@plus_6x:
-        pha
-        vec_add_a screen_vec_wr_lo
-        pla
-        dex
-        bne @plus_6x
-
-        ; Add Y offset to result.
-        tya
-        vec_add_a screen_vec_wr_lo
-
-        ; Set screen memory base address.
-        vec_add_i16 screen_vec_wr_lo, screen_addr_mon
-        rts
