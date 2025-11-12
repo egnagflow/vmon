@@ -23,7 +23,7 @@ api_macro_map screen_chrout,            screen_memmap_chrout_fn
 api_macro_map screen_cursor_move_left,  screen_memmap_cursor_move_left_fn
 api_macro_map screen_cursor_move_right, screen_memmap_cursor_move_right_fn
 
-api_macro_map_if CONFIG_ENABLE_CURSOR_DISPLAY, screen_print_cursor, screen_memmap_print_cursor
+api_macro_map_if CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY, screen_print_cursor, screen_memmap_print_cursor
 
 .macro screen_cursor_pos_set posx, posy
         lda #>(screen_addr_mon + posx * screen_size_y + posy)

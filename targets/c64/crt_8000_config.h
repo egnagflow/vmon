@@ -19,8 +19,7 @@ CONFIG_CARTRIDGE                                := 1
 CONFIG_ROM_BUILD                                := 1
 CONFIG_SPLASH_SHOW_COPYRIGHT                    := 1
 
-
-CONFIG_ENABLE_CURSOR_DISPLAY                    := 1
+CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY             := 1
 
 CONFIG_INIT_CLEAR_STACK                         := 1
 CONFIG_HANDLE_BRK                               := 1

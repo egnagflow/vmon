@@ -62,14 +62,14 @@ chrout_cursor_r:
         rts
 
 chrout_parse:
-.if CONFIG_ENABLE_CURSOR_DISPLAY
+.if CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY
         cmp #$9d            ; CRSR left?
         bne check_cursor_r
 
 chrout_cursor_l:
         screen_cursor_move_left
         rts
-.endif ; CONFIG_ENABLE_CURSOR_DISPLAY
+.endif ; CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY
 
 check_cursor_r:
         cmp #$1d            ; CRSR right?

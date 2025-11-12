@@ -55,7 +55,7 @@ defcfg CONFIG_EXAMPLE_CODE_NOPS
 defcfg CONFIG_ENABLE_COLOR
 defcfg CONFIG_ENABLE_COLOREDIT_FONT
 defcfg CONFIG_ENABLE_COLOREDIT_BACKGROUND
-defcfg CONFIG_ENABLE_CURSOR_DISPLAY
+defcfg CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY
 
 ;-----------------------------------------------------------------------------
 ; Build configuration

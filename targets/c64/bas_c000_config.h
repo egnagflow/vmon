@@ -19,7 +19,7 @@ CONFIG_EXAMPLE_CODE                             := 1
 
 CONFIG_ENABLE_COLOR                             := 1
 CONFIG_ENABLE_COLOREDIT_FONT                    := 1
-CONFIG_ENABLE_CURSOR_DISPLAY                    := 1
+CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY             := 1
 
 CONFIG_PRG_HEADER                               := 1
 CONFIG_BASIC_SYS_LINE                           := 1
