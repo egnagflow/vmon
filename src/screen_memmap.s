@@ -17,7 +17,7 @@
 .export screen_memmap_cursor_move_right_fn
 .export screen_memmap_cursor_move_left_fn
 .if CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY
-.export screen_memmap_print_cursor
+.export screen_memmap_cursor_print
 .endif
 
 
@@ -68,7 +68,7 @@ screen_memmap_cursor_move_right_fn:
         rts
 
 .if CONFIG_SCREEN_ENABLE_CURSOR_DISPLAY
-screen_memmap_print_cursor:
+screen_memmap_cursor_print:
         jsr lda_screen
         ora #$80
         jmp sta_screen

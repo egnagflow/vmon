@@ -53,7 +53,7 @@
 ;   +-----+-----+------+
 
 read_hex4:
-        screen_print_cursor
+        screen_cursor_print
         io_key_in_blocking
         cmp #key_code_esc   ; Abort on ESC key.
         sec
