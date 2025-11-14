@@ -27,7 +27,7 @@
 key_handler_run:
         io_key_in_blocking
 
-        ldy #<__KEY_CODE_TABLE_SIZE__ -1
+        ldy #<(__KEY_CODE_TABLE_SIZE__ -1)
 next_key:
         cmp __KEY_CODE_TABLE_LOAD__,y
         beq exec_cmd

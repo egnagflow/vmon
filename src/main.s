@@ -62,7 +62,7 @@ mon_main_from_basic:
         ; We only need to relocate the BASIC start if it is different from the
         ; requested relocation address.
         lda #>CONFIG_BASIC_START
-        ldy #<CONFIG_BASIC_START+1
+        ldy #<(CONFIG_BASIC_START+1)
 
         cmp basic_start_hi
         bne @do_relocate_basic_start
